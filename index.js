@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import bearerToken from "express-bearer-token";
 import cors from 'cors';
+import mongoose from 'mongoose';
 import { indexController } from "./controllers/indexController.js";
 
 const app = express();
@@ -48,6 +49,29 @@ app.use(indexController);
  * 
  * @param {number} port - El puerto en el que el servidor escuchará las peticiones.
  */
-app.listen(port, () => {
-  console.info(`Servidor funcionando en http://localhost:${port}`);
-});
+try {
+  /**
+   * Conexión a la base de datos.
+   * Se conecta con la base de datos utilizando la URL proporcionada en `MONGO_CONN_STR`.
+   * Si la conexión es exitosa, el servidor se inicia.
+   * En caso de error, el servidor no se levantará.
+   */
+  await mongoose.connect(process.env.MONGO_CONN_STR);
+  console.info("¡Conectado a la base de datos!");
+
+  /**
+   * Arranque del servidor web.
+   * Escucha las peticiones HTTP en el puerto especificado.
+   */
+  app.listen(port, () => {
+    console.info(`Servidor funcionando en http://localhost:${port}`);
+  });
+} catch (e) {
+  /**
+   * Manejo de errores en la conexión a la base de datos.
+   * Si ocurre un error al conectar con la base de datos, se registra el error en la consola
+   * y el servidor no se inicia.
+   */
+  console.error("Error conectando a la base de datos, no se levantará el servidor");
+  console.error(e);
+}
