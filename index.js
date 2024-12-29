@@ -4,6 +4,7 @@ import bearerToken from "express-bearer-token";
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { indexController } from "./controllers/indexController.js";
+import { usuariosController } from "./controllers/usuariosController.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -43,6 +44,7 @@ console.info(`Entorno de ejecución ${process.env.NODE_ENV}`);
  * Se utiliza `indexController` para manejar las rutas de la raíz de la aplicación.
  */
 app.use(indexController);
+app.use(usuariosController);
 
 /**
  * Inicia el servidor web y lo pone a escuchar en el puerto especificado.
