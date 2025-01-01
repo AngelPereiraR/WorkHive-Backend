@@ -5,6 +5,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { indexController } from "./controllers/indexController.js";
 import { usuariosController } from "./controllers/usuariosController.js";
+import { customErrorHandler } from "./errors/customErrorHandler.js";
+import { pathNotFoundHandler } from './errors/pathNotFoundHandler.js';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -47,6 +49,18 @@ app.use(indexController);
 app.use(usuariosController);
 
 /**
+ * Middleware para manejar rutas no encontradas.
+ * Devuelve un mensaje 404 cuando no se encuentra la ruta solicitada.
+ */
+app.use(pathNotFoundHandler);
+
+/**
+ * Middleware personalizado para manejar errores.
+ * Captura errores en la aplicación y devuelve respuestas con códigos de estado y mensajes adecuados.
+ */
+app.use(customErrorHandler);
+
+/**
  * Inicia el servidor web y lo pone a escuchar en el puerto especificado.
  * 
  * @param {number} port - El puerto en el que el servidor escuchará las peticiones.
@@ -77,3 +91,4 @@ try {
   console.error("Error conectando a la base de datos, no se levantará el servidor");
   console.error(e);
 }
+
