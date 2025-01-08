@@ -9,14 +9,20 @@ async function list() {
 }
 
 async function listByPriority(priority) {
-    return await TareaModel.find({ _prioridad: priority}).exec();
+    return await TareaModel.find({ _prioridad: priority }).exec();
 }
 
 async function listByState(state) {
     return await TareaModel.find( { _estado: state }).exec()
 }
 
-// async function listByLimitDate()
+async function listByLimitDate(date) {
+    return await TareaModel.find({ _fechaLimite: date }).exec();
+}
+
+async function listByUserAsigned(id) {
+    return await TareaModel.find( { _asignadoA: id} ).exec();
+}
 
 async function getOne(id){
     const params = { _id: id };
@@ -34,6 +40,10 @@ async function update(id, data) {
 export const tareaRepository = {
     create,
     list,
+    listByPriority,
+    listByState,
+    listByLimitDate,
+    listByUserAsigned,
     getOne,
     remove,
     update,
