@@ -36,7 +36,8 @@ const schema = yup.object().shape({
     .required('La contraseña es obligatoria.')
     .min(8, 'La contraseña debe tener al menos 8 caracteres.')
     .matches(/(?=.*[A-Z])/, 'La contraseña debe contener al menos una letra mayúscula.')
-    .matches(/(?=.*\d)/, 'La contraseña debe contener al menos un número.'),
+    .matches(/(?=.*\d)/, 'La contraseña debe contener al menos un número.')
+    .matches(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/, 'La contraseña debe contener al menos un caracter especial.'),
 
   /**
    * Validación del rol del usuario.
