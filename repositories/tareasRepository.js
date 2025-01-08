@@ -37,7 +37,7 @@ async function update(id, data) {
     return await TareaModel.findOneAndUpdate({ _id: id}, data, { new: true, runValidators: true }).exec();
 }
 
-export const tareaRepository = {
+export const tareasRepository = {
     create,
     list,
     listByPriority,
