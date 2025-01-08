@@ -1,9 +1,11 @@
 import { sha512 } from 'js-sha512';
 import { UsuarioModel } from './models/usuarioModel.js';
 import { uploadImage } from '../utils/uploadImageToCloudinary.js';
+import { createUserWithEmailAndPassword, updateEmail, updatePassword } from 'firebase/auth';
+import { auth } from '../utils/firebaseConfig.js';
 
 /**
- * Crea un nuevo usuario en la base de datos.
+ * Crea un nuevo usuario en la base de datos y en Firebase Authentication.
  * Encripta la contraseña del usuario antes de guardarla y opcionalmente sube la imagen de perfil.
  * 
  * @async
@@ -20,7 +22,17 @@ async function create(data) {
     data.fotoPerfil = await uploadImage(data.fotoPerfil);
   }
 
-  return await new UsuarioModel(data).save();
+  try {
+    // Crear el usuario en Firebase Authentication
+    const firebaseUser = await createUserWithEmailAndPassword(auth, data.email, data.password);
+
+    // Guardar el usuario en la base de datos
+    const newUser = await new UsuarioModel(data).save();
+    return { ...newUser._doc, firebaseUid: firebaseUser.user.uid };
+  } catch (error) {
+    console.error("Error al crear el usuario en Firebase:", error);
+    throw error;
+  }
 }
 
 /**
@@ -60,7 +72,7 @@ async function remove(id) {
 }
 
 /**
- * Actualiza un usuario por su ID con los datos proporcionados.
+ * Actualiza un usuario por su ID con los datos proporcionados en la base de datos y en Firebase Authentication.
  * Si se incluye una nueva contraseña, esta será encriptada.
  * Si se incluye una nueva imagen de perfil, será subida antes de actualizar.
  * 
@@ -76,10 +88,39 @@ async function update(id, data) {
   if (data.password) {
     data.password = sha512(data.password);
   }
+
   if (data.fotoPerfil) {
     data.fotoPerfil = await uploadImage(data.fotoPerfil);
   }
-  return await UsuarioModel.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
+
+  try {
+    // Actualizar usuario en la base de datos
+    const updatedUser = await UsuarioModel.findOneAndUpdate({ _id: id }, data, {
+      new: true,
+      runValidators: true,
+    }).exec();
+
+    if (!updatedUser) {
+      return null;
+    }
+
+    // Actualizar usuario en Firebase Authentication
+    if (data.email || data.password) {
+      const userCredential = auth.currentUser;
+
+      if (data.email) {
+        await updateEmail(userCredential, data.email);
+      }
+      if (data.password) {
+        await updatePassword(userCredential, data.password);
+      }
+    }
+
+    return updatedUser;
+  } catch (error) {
+    console.error("Error al actualizar el usuario en Firebase:", error);
+    throw error;
+  }
 }
 
 /**

@@ -9,6 +9,9 @@ import { createUserToken } from '../utils/createUserToken.js';
 import { sessionChecker } from '../security/sessionChecker.js';
 import { ForbiddenError } from '../errors/ForbiddenError.js';
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebaseConfig.js';
+
 /**
  * Controlador para gestionar rutas relacionadas con usuarios.
  * 
@@ -85,20 +88,40 @@ usuariosController.route('/usuarios/logins')
    * @param {Object} res - Objeto de respuesta.
    */
   .post(loginUsuarioValidations, async (req, res) => {
-    const usuarioEmail = req.curatedBody.email;
-    const receivedPasswordHash = sha512(req.curatedBody.password);
-    const usuario = await usuariosRepository.getOneByEmailAndPassword(usuarioEmail, receivedPasswordHash);
+    const { email, password } = req.curatedBody;
 
-    if (!usuario) {
-      return res.status(401).json({ message: 'usuario y/o contraseña incorrectos' });
+    try {
+      // Validar credenciales en Firebase Authentication
+      const firebaseUser = await signInWithEmailAndPassword(auth, email, password);
+
+      // Hash de la contraseña proporcionada
+      const receivedPasswordHash = sha512(password);
+
+      // Verificar el usuario en la base de datos
+      const usuario = await usuariosRepository.getOneByEmailAndPassword(email, receivedPasswordHash);
+
+      if (!usuario) {
+        return res.status(401).json({ message: 'Usuario no encontrado en la base de datos.' });
+      }
+
+      // Crear el token JWT
+      const responseData = {
+        jwt: createUserToken(usuario),
+      };
+
+      res.status(201).json(responseData);
+    } catch (error) {
+      console.error("Error durante el inicio de sesión:", error);
+
+      // Manejo de errores de Firebase Authentication
+      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        return res.status(401).json({ message: "Usuario y/o contraseña incorrectos." });
+      }
+
+      res.status(500).json({ message: "Error interno del servidor." });
     }
-
-    const responseData = {
-      jwt: createUserToken(usuario)
-    };
-
-    res.status(201).json(responseData);
   });
+
 
 /**
  * Ruta para gestionar un usuario específico por su ID.
@@ -130,6 +153,8 @@ usuariosController.route('/usuarios/:id')
 
     res.json(response);
   })
+
+
   /**
    * Actualiza un usuario por su ID.
    * 
