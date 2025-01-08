@@ -12,7 +12,7 @@ import { tableroSchema } from "./schemas/tableroSchema.js";
 /**
  * Modelo de Tablero.
  * 
- * Representa la colección "tablero" en la base de datos.
+ * Representa la colección "tableros" en la base de datos.
  * 
  * @constant {Model} TableroModel
  */
