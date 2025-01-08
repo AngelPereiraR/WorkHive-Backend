@@ -1,17 +1,24 @@
 import { sha512 } from 'js-sha512';
 import { UsuarioModel } from './models/usuarioModel.js';
+import { uploadImage } from '../utils/uploadImageToCloudinary.js';
 
 /**
  * Crea un nuevo usuario en la base de datos.
+ * Encripta la contraseña del usuario antes de guardarla y opcionalmente sube la imagen de perfil.
  * 
  * @async
  * @function create
  * @param {Object} data - Datos del usuario a crear.
  * @param {string} data.password - Contraseña del usuario que será encriptada.
+ * @param {Object} [data.fotoPerfil] - Ruta de la imagen de perfil para subir (opcional).
  * @returns {Promise<Object>} El usuario creado.
  */
 async function create(data) {
   data.password = sha512(data.password);
+
+  if (data.fotoPerfil) {
+    data.fotoPerfil = await uploadImage(data.fotoPerfil);
+  }
 
   return await new UsuarioModel(data).save();
 }
@@ -21,7 +28,7 @@ async function create(data) {
  * 
  * @async
  * @function list
- * @returns {Promise<Array<Object>>} Lista de usuarios.
+ * @returns {Promise<Array<Object>>} Lista de usuarios ordenada.
  */
 async function list() {
   return await UsuarioModel.find().sort({ createdAt: 'DESC' }).exec();
@@ -32,13 +39,11 @@ async function list() {
  * 
  * @async
  * @function getOne
- * @param {string} id - ID del usuario.
- * @param {boolean} [onlyEnabled=true] - Indica si solo se deben buscar usuarios habilitados.
+ * @param {string} id - ID único del usuario.
  * @returns {Promise<Object|null>} El usuario encontrado o null si no existe.
  */
-async function getOne(id, onlyEnabled = true) {
+async function getOne(id) {
   const params = { _id: id };
-  if (onlyEnabled) params.enabled = true;
   return await UsuarioModel.findOne(params).exec();
 }
 
@@ -47,7 +52,7 @@ async function getOne(id, onlyEnabled = true) {
  * 
  * @async
  * @function remove
- * @param {string} id - ID del usuario a eliminar.
+ * @param {string} id - ID único del usuario a eliminar.
  * @returns {Promise<Object|null>} El usuario eliminado o null si no existe.
  */
 async function remove(id) {
@@ -56,28 +61,39 @@ async function remove(id) {
 
 /**
  * Actualiza un usuario por su ID con los datos proporcionados.
+ * Si se incluye una nueva contraseña, esta será encriptada.
+ * Si se incluye una nueva imagen de perfil, será subida antes de actualizar.
  * 
  * @async
  * @function update
- * @param {string} id - ID del usuario a actualizar.
- * @param {Object} data - Datos a actualizar.
+ * @param {string} id - ID único del usuario a actualizar.
+ * @param {Object} data - Datos del usuario a actualizar.
+ * @param {string} [data.password] - Nueva contraseña del usuario (opcional).
+ * @param {Object} [data.fotoPerfil] - Nueva imagen de perfil para subir (opcional).
  * @returns {Promise<Object|null>} El usuario actualizado o null si no existe.
  */
 async function update(id, data) {
+  if (data.password) {
+    data.password = sha512(data.password);
+  }
+  if (data.fotoPerfil) {
+    data.fotoPerfil = await uploadImage(data.fotoPerfil);
+  }
   return await UsuarioModel.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
 }
 
 /**
  * Obtiene un usuario por su correo electrónico y contraseña.
+ * Solo se buscan usuarios habilitados.
  * 
  * @async
  * @function getOneByEmailAndPassword
  * @param {string} email - Correo electrónico del usuario.
- * @param {string} password - Contraseña del usuario.
+ * @param {string} password - Contraseña del usuario (sin encriptar).
  * @returns {Promise<Object|null>} El usuario encontrado o null si no existe.
  */
 async function getOneByEmailAndPassword(email, password) {
-  return await UsuarioModel.findOne({ email, password, enabled: true }).exec();
+  return await UsuarioModel.findOne({ email, password }).exec();
 }
 
 /**
@@ -99,4 +115,3 @@ export const usuariosRepository = {
   update,
   getOneByEmailAndPassword
 };
-
