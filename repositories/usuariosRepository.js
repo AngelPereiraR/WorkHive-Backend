@@ -93,7 +93,7 @@ async function update(id, data) {
  * @returns {Promise<Object|null>} El usuario encontrado o null si no existe.
  */
 async function getOneByEmailAndPassword(email, password) {
-  return await UsuarioModel.findOne({ email, password, enabled: true }).exec();
+  return await UsuarioModel.findOne({ email, password }).exec();
 }
 
 /**
