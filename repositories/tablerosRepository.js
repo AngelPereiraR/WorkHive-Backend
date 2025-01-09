@@ -34,7 +34,7 @@ async function list() {
  */
 async function getOne(id) {
   const params = { _id: id };
-  return await TableroModel.findOne(params).exec();
+  return await TableroModel.findById(id).exec();
 }
 
 /**
@@ -46,7 +46,7 @@ async function getOne(id) {
  * @returns {Promise<Object|null>} El usuario eliminado o null si no existe.
  */
 async function remove(id) {
-  return await TableroModel.findOneAndDelete({ _id: id }).exec();
+  return await TableroModel.findByIdAndDelete({ _id: id }).exec();
 }
 
 /**
@@ -59,21 +59,65 @@ async function remove(id) {
  * @returns {Promise<Object|null>} El tablero actualizado o null si no existe.
  */
 async function update(id, data) {
-  return await TableroModel.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
+  return await TableroModel.findByIdAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
 }
 
 /**
- * Obtiene un tablero por sus colaboradores.
+ * Obtiene los colaboradores de todos los tableros en los que un usuario es colaborador.
  * 
  * @async
  * @function getByCollaborator
  * @param {string} userId - Id del usuario colaborador.
- * @returns {Promise<Array<Object>|null>} Lista de tableros donde el usuario es colaborador o null si no existe.
+ * @returns {Promise<Array<Object>>} Array de objetos, cada uno conteniendo el ID del tablero y sus colaboradores.
  */
 async function getByCollaborator(userId) {
-    const tableros = await TableroModel.find({ colaboradores: userId }).exec();
-    return tableros.length > 0 ? tableros : null;
+  const tableros = await TableroModel.find({ colaboradores: userId })
+      .select('_id colaboradores')
+      .populate('colaboradores', 'nombre') 
+      .exec();
+
+  return tableros.map(tablero => ({
+      tableroId: tablero._id,
+      colaboradores: tablero.colaboradores
+  }));
 }
+
+
+/**
+ * Agrega un colaborador a un tablero específico.
+ * 
+ * @async
+ * @function addCollaborator
+ * @param {string} tableroId - El ID del tablero al que se añadirá el colaborador.
+ * @param {string} userId - El ID del usuario que se añadirá como colaborador.
+ * @returns {Promise<Object|null>} El tablero actualizado con el nuevo colaborador, o null si no se encuentra el tablero.
+ */
+async function addCollaborator(tableroId, userId) {
+  return await TableroModel.findByIdAndUpdate(
+    tableroId,
+    { $addToSet: { colaboradores: userId } },
+    { new: true, runValidators: true }
+  ).exec();
+}
+
+/**
+ * Elimina un colaborador de un tablero específico.
+ * 
+ * @async
+ * @function removeCollaborator
+ * @param {string} tableroId - El ID del tablero del que se eliminará el colaborador.
+ * @param {string} userId - El ID del usuario que se eliminará como colaborador.
+ * @returns {Promise<Object|null>} El tablero actualizado sin el colaborador eliminado, o null si no se encuentra el tablero.
+ */
+async function removeCollaborator(tableroId, userId) {
+  return await TableroModel.findByIdAndUpdate(
+    tableroId,
+    { $pull: { colaboradores: userId } },
+    { new: true }
+  ).exec();
+}
+
+
 
 /**
  * Obtiene un tablero por su administrador.
@@ -84,21 +128,10 @@ async function getByCollaborator(userId) {
  * @returns {Promise<Array<Object>|null>} Lista de tableros donde el usuario es administrador o null si no existe.
  */
 async function getByAdministrator(administratorId) {
-    const tableros = await TableroModel.find({ aministrador: administratorId }).exec();
-    return tableros.length > 0 ? tableros : null;
+    const tableros = await TableroModel.find({ administrador: administratorId }).exec();
+    return tableros.length > 0 ? tableros : [];
 }
 
-/**
- * Obtiene el administrador del tablero.
- * 
- * @async
- * @function getAdministrator
- * @param {string} tableroId - Id del tablero.
- * @returns {Promise<<Object>|null>} El administrador del proyecto.
- */
-async function getAdministrator(tableroId) {
-    return await TableroModel.findOne(params).exec();
-}
 
 /**
  * Determina si un proyecto es actual basado en sus fechas de inicio y fin.
@@ -123,8 +156,9 @@ function isProyectoActual(fechaInicio, fechaFin) {
  * @property {Function} remove - Elimina un tablero por su ID.
  * @property {Function} update - Actualiza un tablero por su ID.
  * @property {Function} getByCollaborator -Lista los tableros del usuario colaborador.
+ * @property {Function} addCollaborator -Añade un colaborador.
+ * @property {Function} removeCollaborator -Elimina un colaborador.
  * @property {Function} getByAdministrator -Lista los tableros del usuario administrador.
- * @property {Function} getAdministrator -Obtiene el administrador del tablero.
  * @property {Function} isProyectoActual -True si es actual o false si ha finalizado.
 */
 export const tablerosRepository = {
@@ -134,7 +168,8 @@ export const tablerosRepository = {
     remove,
     update,
     getByCollaborator,
+    addCollaborator,
+    removeCollaborator,
     getByAdministrator,
-    getAdministrator,
     isProyectoActual
   };
