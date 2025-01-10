@@ -19,7 +19,7 @@ const schema = yup.object().shape({
         .notRequired(),
 
     estado: yup.string()
-        .oneOf(['pendiente', 'en proceso', 'en revisión', 'completada'], "El estado de la tarea deber ser pendiente, en proceso, en revisión o completada")
+        .oneOf(['pendiente', 'en_proceso', 'en_revision', 'completada'], "El estado de la tarea deber ser pendiente, en proceso, en revisión o completada")
         .notRequired(),
 
     fechaLimite: yup.date()
