@@ -43,7 +43,7 @@ async function getOne(id) {
  * @async
  * @function remove
  * @param {string} id - ID del tablero a eliminar.
- * @returns {Promise<Object|null>} El usuario eliminado o null si no existe.
+ * @returns {Promise<Object|null>} El tablero eliminado o null si no existe.
  */
 async function remove(id) {
   return await TableroModel.findByIdAndDelete({ _id: id }).exec();
@@ -72,13 +72,13 @@ async function update(id, data) {
  */
 async function getByCollaborator(userId) {
   const tableros = await TableroModel.find({ colaboradores: userId })
-      .select('_id colaboradores')
-      .populate('colaboradores', 'nombre') 
-      .exec();
+    .select('_id colaboradores')
+    .populate('colaboradores', 'nombre')
+    .exec();
 
   return tableros.map(tablero => ({
-      tableroId: tablero._id,
-      colaboradores: tablero.colaboradores
+    tableroId: tablero._id,
+    colaboradores: tablero.colaboradores
   }));
 }
 
@@ -128,8 +128,8 @@ async function removeCollaborator(tableroId, userId) {
  * @returns {Promise<Array<Object>|null>} Lista de tableros donde el usuario es administrador o null si no existe.
  */
 async function getByAdministrator(administratorId) {
-    const tableros = await TableroModel.find({ administrador: administratorId }).exec();
-    return tableros.length > 0 ? tableros : [];
+  const tableros = await TableroModel.find({ administrador: administratorId }).exec();
+  return tableros.length > 0 ? tableros : [];
 }
 
 
@@ -142,9 +142,9 @@ async function getByAdministrator(administratorId) {
  * @returns {boolean} True si es un proyecto actual, false si está finalizado.
  */
 function isProyectoActual(fechaInicio, fechaFin) {
-    return fechaFin > fechaInicio;
-  }
-  
+  return fechaFin > fechaInicio;
+}
+
 
 /**
  * Repositorio de tableros que contiene las operaciones principales sobre la base de datos.
@@ -162,14 +162,14 @@ function isProyectoActual(fechaInicio, fechaFin) {
  * @property {Function} isProyectoActual -True si es actual o false si ha finalizado.
 */
 export const tablerosRepository = {
-    list,
-    create,
-    getOne,
-    remove,
-    update,
-    getByCollaborator,
-    addCollaborator,
-    removeCollaborator,
-    getByAdministrator,
-    isProyectoActual
-  };
+  list,
+  create,
+  getOne,
+  remove,
+  update,
+  getByCollaborator,
+  addCollaborator,
+  removeCollaborator,
+  getByAdministrator,
+  isProyectoActual
+};
