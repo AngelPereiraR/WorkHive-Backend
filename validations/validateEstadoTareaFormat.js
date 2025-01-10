@@ -1,6 +1,6 @@
 import {BadRequestError} from "../errors/BadRequestError.js";
 
-export const validateEstadoTareaFormat = (paramName = 'prioridad') => {
+export const validateEstadoTareaFormat = (paramName = 'estado') => {
     return (req, res, next) => {
         const paramValue = req.params[paramName] || '';
 
