@@ -1,5 +1,12 @@
 import {BadRequestError} from "../errors/BadRequestError.js";
 
+/**
+ * Middleware para validar el formato de la fecha
+ *
+ * @function
+ * @param {string} [paramName='fecha'] - Nombre del parámetro en los parámetros de la ruta que contiene la fecha
+ * @returns {Function} Middleware de validación
+ */
 export const validateFechaTareaFormat = (paramName = 'fecha') => {
     return (req, res, next) => {
         const paramValue = req.params[paramName] || '';
@@ -12,6 +19,11 @@ export const validateFechaTareaFormat = (paramName = 'fecha') => {
     }
 }
 
+/**
+ * Validación de la fecha
+ * @param {String} fecha Fecha para comprobar
+ * @returns {boolean} True si es una fecha válida o False si no es válida
+ */
 function isValidDate(fecha) {
     // Expresión regular para verificar el formato dd-mm-yyyy
     const regexFecha = /^(\d{2})-(\d{2})-(\d{4})$/;

@@ -1,5 +1,12 @@
 import {BadRequestError} from "../errors/BadRequestError.js";
 
+/**
+ * Middleware para validar el formato de la prioridad
+ *
+ * @function
+ * @param {string} [paramName='prioridad'] - Nombre del parámetro en los parámetros de la ruta que contiene la prioridad
+ * @returns {Function} Middleware de validación
+ */
 export const validatePrioridadTareaFormat = (paramName = 'prioridad') => {
     return (req, res, next) => {
         const paramValue = req.params[paramName] || '';

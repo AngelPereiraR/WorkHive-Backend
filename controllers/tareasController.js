@@ -8,23 +8,63 @@ import {validatePrioridadTareaFormat} from "../validations/validatePrioridadTare
 import {validateEstadoTareaFormat} from "../validations/validateEstadoTareaFormat.js";
 import {validateFechaTareaFormat} from "../validations/validateFechaTareaFormat.js";
 
-
+/**
+ * Controlador para gestionar tutas relacionadas con tareas
+ */
 const tareasController = express.Router();
 
+/**
+ * Ruta para crear y listar tareas
+ *
+ * @name /tareas
+ * @function
+ */
 tareasController.route("/tareas")
+
+    /**
+     * Crea una tarea nueva
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta.
+     */
     .post(sessionChecker(['administrador', 'usuario'], true), createTareaValidations, async (req, res) => {
         const createItem = await tareasRepository.create(req.curatedBody);
 
         res.status(201).json(createItem);
     })
 
+    /**
+     * Lista todas las tareas
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta.
+     */
     .get(sessionChecker(['administrador'], true), async (req, res) => {
         const itemList = await tareasRepository.list();
 
         res.json(itemList);
     })
 
+/**
+ * Ruta para gestionar tareas específicas por su ID
+ *
+ * @name /tareas/:id
+ * @function
+ */
 tareasController.route("/tareas/:id")
+
+    /**
+     * Obtiene una tarea por su ID
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta.
+     */
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
         const itemId = req.params.id;
 
@@ -37,6 +77,14 @@ tareasController.route("/tareas/:id")
         res.json(response);
     })
 
+    /**
+     * Actualizar una tarea por su ID
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta.
+     */
     .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), updateTareaValidations, async (req, res) => {
         const itemId = req.params.id;
 
@@ -49,6 +97,13 @@ tareasController.route("/tareas/:id")
         res.json(response);
     })
 
+    /**
+     * Elimina una tarea por su ID
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta.
+     */
     .delete(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
         const itemId = req.params.id;
         const item = await tareasRepository.remove(itemId);
@@ -60,7 +115,22 @@ tareasController.route("/tareas/:id")
         res.status(204).json();
     });
 
+/**
+ * Ruta para consultar las tareas de un tablero filtrando por su prioridad
+ *
+ * @name /tareas/prioridad
+ * @function
+ */
 tareasController.route("/tareas/prioridad")
+
+    /**
+     * Listado de las tareas de un tablero filtradas por su prioridad
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta
+     */
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validatePrioridadTareaFormat(), async (req, res) => {
         const {tablero, prioridad} = req.body;
         const itemList = await tareasRepository.listByPriority(tablero, prioridad);
@@ -68,7 +138,22 @@ tareasController.route("/tareas/prioridad")
         res.json(itemList);
     });
 
+/**
+ * Ruta para consultar las tareas de un tablero filtrando por su estado
+ *
+ * @name /tareas/estado
+ * @function
+ */
 tareasController.route("/tareas/estado")
+
+    /**
+     * Listado de las tareas de un tablero filtradas por su estado
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta
+     */
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validateEstadoTareaFormat(), async (req, res) => {
         const {tablero, estado} = req.body;
         const itemList = await tareasRepository.listByState(tablero, estado);
@@ -76,7 +161,22 @@ tareasController.route("/tareas/estado")
         res.json(itemList);
     })
 
+/**
+ * Ruta para consultar las tareas de un tablero filtrando por su usuario asignado
+ *
+ * @name /tareas/asignado
+ * @function
+ */
 tareasController.route("/tareas/asigando")
+
+    /**
+     * Listado de las tareas de un tablero filtradas por su usuario asignado
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta
+     */
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validateObjectIdFormat("usuario"), async (req, res) => {
         const {tablero, asignado} = req.body;
         const itemList = await tareasRepository.listByUserAsigned(tablero, asignado);
@@ -84,7 +184,22 @@ tareasController.route("/tareas/asigando")
         res.json(itemList);
     })
 
-tareasController.route("/tareas/tablero/:id/fechaLimite/:fecha")
+/**
+ * Ruta para consultar las tareas de un tablero filtrando por su fecha límite
+ *
+ * @name /tareas/fechaLimite
+ * @function
+ */
+tareasController.route("/tareas/fechaLimite")
+
+    /**
+     * Listado de las tareas de un tablero filtradas por su fecha límite
+     *
+     * @async
+     * @function
+     * @param {Object} req - Objeto de solicitud.
+     * @param {Object} res - Objeto de respuesta
+     */
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validateFechaTareaFormat(), async (req, res) => {
         const {tablero, fechaLimite} = req.body;
         const itemList = await tareasRepository.listByLimitDate(tablero, convertToDate(fechaLimite));
@@ -95,6 +210,11 @@ tareasController.route("/tareas/tablero/:id/fechaLimite/:fecha")
 
 export { tareasController };
 
+/**
+ * Convertir a fecha una cadena de texto
+ * @param fechaString Fecha en cadena
+ * @returns {Date} Fecha
+ */
 function convertToDate(fechaString) {
     const [dia, mes, anio] = fechaString.split('-');
     return new Date(anio, mes - 1, dia);

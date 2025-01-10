@@ -1,5 +1,12 @@
 import {BadRequestError} from "../errors/BadRequestError.js";
 
+/**
+ * Middleware para validar el formato del estadp
+ *
+ * @function
+ * @param {string} [paramName='estado'] - Nombre del parámetro en los parámetros de la ruta que contiene el estado
+ * @returns {Function} Middleware de validación
+ */
 export const validateEstadoTareaFormat = (paramName = 'estado') => {
     return (req, res, next) => {
         const paramValue = req.params[paramName] || '';
