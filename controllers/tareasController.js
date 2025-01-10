@@ -60,42 +60,34 @@ tareasController.route("/tareas/:id")
         res.status(204).json();
     });
 
-tareasController.route("/tareas/tablero/:id/prioridad/:prioridad")
+tareasController.route("/tareas/prioridad")
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validatePrioridadTareaFormat(), async (req, res) => {
-        const tableroId = req.params.id;
-        const prioridad = req.params.prioridad;
-
-        const itemList = await tareasRepository.listByPriority(tableroId, prioridad);
+        const {tablero, prioridad} = req.body;
+        const itemList = await tareasRepository.listByPriority(tablero, prioridad);
 
         res.json(itemList);
     });
 
-tareasController.route("/tareas/tablero/:id/estado/:estado")
+tareasController.route("/tareas/estado")
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validateEstadoTareaFormat(), async (req, res) => {
-        const tableroId = req.params.id;
-        const estado = req.params.estado;
-
-        const itemList = await tareasRepository.listByState(tableroId, estado);
+        const {tablero, estado} = req.body;
+        const itemList = await tareasRepository.listByState(tablero, estado);
 
         res.json(itemList);
     })
 
-tareasController.route("/tareas/tablero/:id/asigando/:usuario")
+tareasController.route("/tareas/asigando")
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validateObjectIdFormat("usuario"), async (req, res) => {
-        const tableroId = req.params.id;
-        const asignado = req.params.usuario;
-
-        const itemList = await tareasRepository.listByUserAsigned(tableroId, asignado);
+        const {tablero, asignado} = req.body;
+        const itemList = await tareasRepository.listByUserAsigned(tablero, asignado);
 
         res.json(itemList);
     })
 
 tareasController.route("/tareas/tablero/:id/fechaLimite/:fecha")
     .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), validateFechaTareaFormat(), async (req, res) => {
-        const tableroId = req.params.id;
-        const fechaLimite = convertToDate(req.params.fecha);
-
-        const itemList = await tareasRepository.listByLimitDate(tableroId, fechaLimite);
+        const {tablero, fechaLimite} = req.body;
+        const itemList = await tareasRepository.listByLimitDate(tablero, convertToDate(fechaLimite));
 
         res.json(itemList);
     })
