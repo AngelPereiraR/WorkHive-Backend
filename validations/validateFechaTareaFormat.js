@@ -12,7 +12,6 @@ export const validateFechaTareaFormat = (paramName = 'fecha') => {
     }
 }
 
-// gracias perplexity <3
 function isValidDate(fecha) {
     // Expresión regular para verificar el formato dd-mm-yyyy
     const regexFecha = /^(\d{2})-(\d{2})-(\d{4})$/;
