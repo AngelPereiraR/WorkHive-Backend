@@ -8,8 +8,8 @@ export const createUserToken = (usuario) => {
   //generar el payload para el token jwt
   const payload = {
     id: usuario._id,
-    firstname: usuario.firstname,
-    profile: usuario.profile
+    nombre: usuario.nombre,
+    rol: usuario.rol
   }
 
   //generamos el token con el payload previamente confeccionado

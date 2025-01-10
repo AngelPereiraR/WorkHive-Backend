@@ -77,9 +77,6 @@ tablerosController.route('/tableros/:id')
     if (!item) {
       return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
     }
-    if (!req.isAdminUsuario && item.administrador.toString() !== req.tokenData.id && !item.colaboradores.includes(req.tokenData.id)) {
-      return next(new ForbiddenError('Acceso no permitido'));
-    }
     res.json(item);
   })
   /**
@@ -96,9 +93,6 @@ tablerosController.route('/tableros/:id')
     const item = await tablerosRepository.getOne(itemId);
     if (!item) {
       return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
-    }
-    if (!req.isAdminUsuario && item.administrador.toString() !== req.tokenData.id) {
-      return next(new ForbiddenError('Acceso no permitido'));
     }
     const updatedItem = await tablerosRepository.update(itemId, req.curatedBody);
     res.json(updatedItem);
@@ -117,9 +111,6 @@ tablerosController.route('/tableros/:id')
     const item = await tablerosRepository.getOne(itemId);
     if (!item) {
       return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
-    }
-    if (!req.isAdminUsuario && item.administrador.toString() !== req.tokenData.id) {
-      return next(new ForbiddenError('Acceso no permitido'));
     }
     await tablerosRepository.remove(itemId);
     res.status(204).json();
@@ -148,9 +139,6 @@ tablerosController.route('/tableros/:id/colaboradores')
     if (!tablero) {
       return res.status(404).json({ message: `Tablero con id ${tableroId} no encontrado` });
     }
-    if (!req.isAdminUsuario && tablero.administrador.toString() !== req.tokenData.id) {
-      return next(new ForbiddenError('Acceso no permitido'));
-    }
     const updatedTablero = await tablerosRepository.addCollaborator(tableroId, userId);
     res.json(updatedTablero);
   })
@@ -169,9 +157,6 @@ tablerosController.route('/tableros/:id/colaboradores')
     const tablero = await tablerosRepository.getOne(tableroId);
     if (!tablero) {
       return res.status(404).json({ message: `Tablero con id ${tableroId} no encontrado` });
-    }
-    if (!req.isAdminUsuario && tablero.administrador.toString() !== req.tokenData.id) {
-      return next(new ForbiddenError('Acceso no permitido'));
     }
     const updatedTablero = await tablerosRepository.removeCollaborator(tableroId, userId);
     res.json(updatedTablero);
@@ -194,9 +179,6 @@ tablerosController.route('/tableros/colaborador/:userId')
    */
   .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
     const userId = req.params.userId;
-    if (!req.isAdminUsuario && userId !== req.tokenData.id) {
-      return next(new ForbiddenError('Acceso no permitido'));
-    }
     const tableros = await tablerosRepository.getByCollaborator(userId);
     res.json(tableros);
   });
@@ -218,9 +200,6 @@ tablerosController.route('/tableros/administrador/:userId')
    */
   .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
     const userId = req.params.userId;
-    if (!req.isAdminUsuario && userId !== req.tokenData.id) {
-      return next(new ForbiddenError('Acceso no permitido'));
-    }
     const tableros = await tablerosRepository.getByAdministrator(userId);
     res.json(tableros);
   });

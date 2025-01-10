@@ -140,10 +140,6 @@ usuariosController.route('/usuarios/:id')
    */
   .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
     const itemId = req.params.id;
-    if (!req.isAdminUsuario && itemId !== req.tokenData.id) {
-      next(new ForbiddenError('access not allowed'));
-      return;
-    }
     const item = await usuariosRepository.getOne(itemId);
     if (!item) {
       return res.status(404).json({ message: `item con id ${itemId} no encontrado` });
@@ -165,10 +161,6 @@ usuariosController.route('/usuarios/:id')
    */
   .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), updateUsuarioValidations, async (req, res) => {
     const itemId = req.params.id;
-    if (!req.isAdminUsuario && itemId !== req.tokenData.id) {
-      next(new ForbiddenError('access not allowed'));
-      return;
-    }
 
     const item = await usuariosRepository.update(itemId, req.curatedBody);
 
