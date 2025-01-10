@@ -142,7 +142,7 @@ usuariosController.route('/usuarios/:id')
     const itemId = req.params.id;
     const item = await usuariosRepository.getOne(itemId);
     if (!item) {
-      return res.status(404).json({ message: `item con id ${itemId} no encontrado` });
+      return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
     }
     const response = item.toJSON();
     delete response.password;
@@ -165,7 +165,7 @@ usuariosController.route('/usuarios/:id')
     const item = await usuariosRepository.update(itemId, req.curatedBody);
 
     if (!item) {
-      return res.status(404).json({ message: `item con id ${itemId} no encontrado` });
+      return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
     }
     const response = item.toJSON();
     delete response.password;
@@ -185,7 +185,7 @@ usuariosController.route('/usuarios/:id')
     const item = await usuariosRepository.remove(itemId);
 
     if (!item) {
-      return res.status(404).json({ message: `item con id ${itemId} no encontrado` });
+      return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
     }
 
     res.status(204).json();
