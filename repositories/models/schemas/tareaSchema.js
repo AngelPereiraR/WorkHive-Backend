@@ -40,7 +40,7 @@ export const tareaSchema = new Schema({
   /** Estado actual de la tarea */
   estado: {
     type: String,
-    enum: ['pendiente', 'en proceso', 'en revisión', 'completada'],
+    enum: ['pendiente', 'en_proceso', 'en_revision', 'completada'],
     default: 'pendiente'
   },
   /** Fecha límite para completar la tarea */
