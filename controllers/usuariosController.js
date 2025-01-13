@@ -1,4 +1,5 @@
 import express from 'express';
+import formidable from 'formidable'
 import { createUsuarioValidations } from '../validations/createUsuarioValidations.js';
 import { usuariosRepository } from '../repositories/usuariosRepository.js';
 import { updateUsuarioValidations } from '../validations/updateUsuarioValidations.js';
@@ -7,10 +8,6 @@ import { sha512 } from 'js-sha512';
 import { validateObjectIdFormat } from '../validations/validateObjectIdFormat.js';
 import { createUserToken } from '../utils/createUserToken.js';
 import { sessionChecker } from '../security/sessionChecker.js';
-import { ForbiddenError } from '../errors/ForbiddenError.js';
-
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../utils/firebaseConfig.js';
 
 /**
  * Controlador para gestionar rutas relacionadas con usuarios.
@@ -44,13 +41,36 @@ usuariosController.route('/usuarios')
    * @param {Object} req - Objeto de solicitud.
    * @param {Object} res - Objeto de respuesta.
    */
-  .post(createUsuarioValidations, async (req, res) => {
-    const createdItem = await usuariosRepository.create(req.curatedBody);
+  .post(async (req, res, next) => {
+    try {
+      const form = formidable({ multiples: true });
+      form.parse(req, async (err, fields, files) => {
+        req.curatedBody = fields
 
-    const response = createdItem.toJSON();
-    delete response.password;
+        if (files && files.fotoPerfil) {
+          req.curatedBody.fotoPerfil = files.fotoPerfil[0].filepath
+        }
 
-    res.status(201).json(response);
+        if (fields.nombre) req.curatedBody.nombre = fields.nombre.toString()
+        if (fields.email) req.curatedBody.email = fields.email.toString()
+        if (fields.password) req.curatedBody.password = fields.password.toString()
+        if (fields.rol) req.curatedBody.rol = fields.rol.toString()
+
+        const existingUsuario = await usuariosRepository.getOneByEmailAndPassword(req.curatedBody.email, sha512(req.curatedBody.password));
+
+        if (existingUsuario) {
+          return res.status(400).json({ message: 'Ya hay un usuario existente con ese nombre' });
+        }
+        const validatedData = await createUsuarioValidations.validate(req.curatedBody, { abortEarly: false, stripUnknown: true });
+
+        const createdItem = await usuariosRepository.create(validatedData);
+
+        res.status(201).json(createdItem);
+      })
+
+    } catch (e) {
+      next(e);
+    }
   })
   /**
    * Lista todos los usuarios.
@@ -88,38 +108,22 @@ usuariosController.route('/usuarios/logins')
    * @param {Object} res - Objeto de respuesta.
    */
   .post(loginUsuarioValidations, async (req, res) => {
-    const { email, password } = req.curatedBody;
+    const userEmail = req.curatedBody.email
+    const receivedPasswordHash = sha512(req.curatedBody.password)
+    const user = await usuariosRepository.getOneByEmailAndPassword(userEmail, receivedPasswordHash)
 
-    try {
-      // Validar credenciales en Firebase Authentication
-      const firebaseUser = await signInWithEmailAndPassword(auth, email, password);
-
-      // Hash de la contraseña proporcionada
-      const receivedPasswordHash = sha512(password);
-
-      // Verificar el usuario en la base de datos
-      const usuario = await usuariosRepository.getOneByEmailAndPassword(email, receivedPasswordHash);
-
-      if (!usuario) {
-        return res.status(401).json({ message: 'Usuario no encontrado en la base de datos.' });
-      }
-
-      // Crear el token JWT
-      const responseData = {
-        jwt: createUserToken(usuario),
-      };
-
-      res.status(201).json(responseData);
-    } catch (error) {
-      console.error("Error durante el inicio de sesión:", error);
-
-      // Manejo de errores de Firebase Authentication
-      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
-        return res.status(401).json({ message: "Usuario y/o contraseña incorrectos." });
-      }
-
-      res.status(500).json({ message: "Error interno del servidor." });
+    if (!user) {
+      return res.status(401).json({ message: 'Usuario y/o contraseña incorrectos' })
     }
+
+    delete user.password
+
+    const responseData = {
+      user: user,
+      token: createUserToken(user)
+    }
+
+    res.status(201).json(responseData)
   });
 
 
@@ -159,18 +163,38 @@ usuariosController.route('/usuarios/:id')
    * @param {Object} req - Objeto de solicitud.
    * @param {Object} res - Objeto de respuesta.
    */
-  .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), updateUsuarioValidations, async (req, res) => {
+  .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
+
     const itemId = req.params.id;
 
-    const item = await usuariosRepository.update(itemId, req.curatedBody);
 
-    if (!item) {
-      return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
+    try {
+      const form = formidable({ multiples: true });
+      form.parse(req, async (err, fields, files) => {
+        req.curatedBody = fields
+
+        if (files && files.fotoPerfil) {
+          req.curatedBody.fotoPerfil = files.fotoPerfil[0].filepath
+        }
+
+        if (fields.nombre) req.curatedBody.nombre = fields.nombre.toString()
+        if (fields.email) req.curatedBody.email = fields.email.toString()
+        if (fields.password) req.curatedBody.password = fields.password.toString()
+        if (fields.rol) req.curatedBody.rol = fields.rol.toString()
+
+        const validatedData = await updateUsuarioValidations.validate(req.curatedBody, { abortEarly: false, stripUnknown: true });
+
+        const updatedItem = await usuariosRepository.update(itemId, validatedData);
+
+        if (!updatedItem) {
+          return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
+        }
+
+        res.status(201).json(updatedItem);
+      })
+    } catch (e) {
+      next(e)
     }
-    const response = item.toJSON();
-    delete response.password;
-
-    res.json(response);
   })
   /**
    * Elimina un usuario por su ID.

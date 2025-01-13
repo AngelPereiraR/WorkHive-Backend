@@ -1,8 +1,6 @@
 import { sha512 } from 'js-sha512';
 import { UsuarioModel } from './models/usuarioModel.js';
 import { uploadImage } from '../utils/uploadImageToCloudinary.js';
-import { createUserWithEmailAndPassword, updateEmail, updatePassword } from 'firebase/auth';
-import { auth } from '../utils/firebaseConfig.js';
 
 /**
  * Crea un nuevo usuario en la base de datos y en Firebase Authentication.
@@ -21,18 +19,7 @@ async function create(data) {
   if (data.fotoPerfil) {
     data.fotoPerfil = await uploadImage(data.fotoPerfil);
   }
-
-  try {
-    // Crear el usuario en Firebase Authentication
-    const firebaseUser = await createUserWithEmailAndPassword(auth, data.email, data.password);
-
-    // Guardar el usuario en la base de datos
-    const newUser = await new UsuarioModel(data).save();
-    return { ...newUser._doc, firebaseUid: firebaseUser.user.uid };
-  } catch (error) {
-    console.error("Error al crear el usuario en Firebase:", error);
-    throw error;
-  }
+  return await new UsuarioModel(data).save();
 }
 
 /**
@@ -43,7 +30,7 @@ async function create(data) {
  * @returns {Promise<Array<Object>>} Lista de usuarios ordenada.
  */
 async function list() {
-  return await UsuarioModel.find().sort({ createdAt: 'DESC' }).exec();
+  return await UsuarioModel.find().sort({ createdAt: 'desc' }).exec();
 }
 
 /**
@@ -104,33 +91,19 @@ async function update(id, data) {
       return null;
     }
 
-    // Actualizar usuario en Firebase Authentication
-    if (data.email || data.password) {
-      const userCredential = auth.currentUser;
-
-      if (data.email) {
-        await updateEmail(userCredential, data.email);
-      }
-      if (data.password) {
-        await updatePassword(userCredential, data.password);
-      }
-    }
-
     return updatedUser;
   } catch (error) {
-    console.error("Error al actualizar el usuario en Firebase:", error);
     throw error;
   }
 }
 
 /**
  * Obtiene un usuario por su correo electrónico y contraseña.
- * Solo se buscan usuarios habilitados.
  * 
  * @async
  * @function getOneByEmailAndPassword
  * @param {string} email - Correo electrónico del usuario.
- * @param {string} password - Contraseña del usuario (sin encriptar).
+ * @param {string} password - Contraseña del usuario.
  * @returns {Promise<Object|null>} El usuario encontrado o null si no existe.
  */
 async function getOneByEmailAndPassword(email, password) {

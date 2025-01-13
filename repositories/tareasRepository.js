@@ -1,4 +1,4 @@
-import {TareaModel} from "./models/tareaModel.js";
+import { TareaModel } from "./models/tareaModel.js";
 
 /**
  * Crea una nueva tarea en la base de datos
@@ -20,7 +20,7 @@ async function create(data) {
  * @return {Promise<Array<Object>>} Lista de tareas ordenada.
  */
 async function list() {
-    return await TareaModel.find().sort({ nombre: "DESC" }).exec();
+    return await TareaModel.find().sort({ nombre: "desc" }).exec();
 }
 
 /**
@@ -46,7 +46,7 @@ async function listByPriority(tablero, priority) {
  * @return {Promise<Array<Object>>} Lista de tareas de un tablero con un estado determinado
  */
 async function listByState(tablero, state) {
-    return await TareaModel.find( { tablero: tablero, estado: state }).exec()
+    return await TareaModel.find({ tablero: tablero, estado: state }).exec()
 }
 
 /**
@@ -72,7 +72,7 @@ async function listByLimitDate(tablero, date) {
  * @return {Promise<Array<Object>>} Lista de tareas de un tablero con un usuario asignado
  */
 async function listByUserAsigned(tablero, id) {
-    return await TareaModel.find( { tablero: tablero, asignadoA: id} ).exec();
+    return await TareaModel.find({ tablero: tablero, asignadoA: id }).exec();
 }
 
 /**
@@ -83,7 +83,7 @@ async function listByUserAsigned(tablero, id) {
  * @param {string} id - ID único de la tarea.
  * @returns {Promise<Object|null>} La tarea encontrada o null si no existe.
  */
-async function getOne(id){
+async function getOne(id) {
     const params = { _id: id };
     return await TareaModel.findOne(params).exec();
 }
@@ -110,7 +110,7 @@ async function remove(id) {
  * @returns {Promise<Object|null>} La tarea actualizada o null si no existe.
  */
 async function update(id, data) {
-    return await TareaModel.findOneAndUpdate({ _id: id}, data, { new: true, runValidators: true }).exec();
+    return await TareaModel.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
 }
 
 /**

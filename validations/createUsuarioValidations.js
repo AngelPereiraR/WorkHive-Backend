@@ -8,13 +8,12 @@ yup.setLocale(es);
  * 
  * @constant {yup.ObjectSchema} schema
  */
-const schema = yup.object().shape({
+const createUsuarioValidations = yup.object().shape({
   /**
    * Validación del nombre del usuario.
    * Debe ser una cadena, sin espacios al inicio o final, con al menos 3 caracteres.
    */
   nombre: yup.string()
-    .trim()
     .required('El nombre es obligatorio.')
     .min(3, 'El nombre debe tener al menos 3 caracteres.'),
 
@@ -23,7 +22,6 @@ const schema = yup.object().shape({
    * Debe ser una cadena válida en formato de correo electrónico.
    */
   email: yup.string()
-    .trim()
     .lowercase()
     .required('El correo electrónico es obligatorio.')
     .email('Debe ser un correo electrónico válido.'),
@@ -51,31 +49,11 @@ const schema = yup.object().shape({
    * Validación de la URL de la foto de perfil.
    * Puede ser nula o una URL válida.
    */
-  fotoPerfil: yup.string()
-    .url('La URL de la foto de perfil no es válida.')
+  fotoPerfil: yup.string('La URL de la foto de perfil no es válida.')
     .nullable()
 });
 
-/**
- * Middleware para validar la creación de usuarios.
- * 
- * @async
- * @function
- * @param {Object} req - Objeto de solicitud HTTP.
- * @param {Object} res - Objeto de respuesta HTTP.
- * @param {Function} next - Función para pasar al siguiente middleware.
- * @throws {Error} Si la validación falla, se pasa el error al siguiente middleware.
- */
-export const createUsuarioValidations = async (req, res, next) => {
-  try {
-    // Validamos los datos recibidos según el esquema definido
-    const data = await schema.validate(req.body, { abortEarly: false, stripUnknown: true });
-    // Guardamos los datos validados en req.curatedBody
-    req.curatedBody = data;
-    next();
-  } catch (e) {
-    // Pasamos los errores de validación al siguiente middleware
-    next(e);
-  }
-};
+
+
+export { createUsuarioValidations }
 

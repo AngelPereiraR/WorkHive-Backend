@@ -1,6 +1,5 @@
 // Modelo Usuario
 import { Schema } from 'mongoose';
-import { genSalt, hash } from 'bcrypt';
 
 /**
  * Esquema de Usuario para la base de datos.
@@ -50,19 +49,6 @@ export const usuarioSchema = new Schema({
   },
 },
   {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
   }
 );
-
-/**
- * Middleware para cifrar contraseñas antes de guardar.
- * 
- * Se ejecuta automáticamente antes de que un registro de usuario sea guardado en la base de datos.
- * Solo se aplica si el campo de contraseña ha sido modificado.
- */
-usuarioSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  const salt = await genSalt(10);
-  this.password = await hash(this.password, salt);
-  next();
-});

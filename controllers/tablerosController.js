@@ -4,7 +4,6 @@ import { createTableroValidations } from '../validations/createTableroValidation
 import { updateTableroValidations } from '../validations/updateTableroValidations.js';
 import { validateObjectIdFormat } from '../validations/validateObjectIdFormat.js';
 import { sessionChecker } from '../security/sessionChecker.js';
-import { ForbiddenError } from '../errors/ForbiddenError.js';
 
 /**
  * Controlador para gestionar rutas relacionadas con tableros.

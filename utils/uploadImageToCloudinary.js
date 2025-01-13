@@ -20,7 +20,6 @@ export async function uploadImage(imagePath) {
     use_filename: true,     // Utiliza el nombre original del archivo.
     unique_filename: false, // No genera un nombre único automáticamente.
     overwrite: true,        // Sobrescribe el archivo existente con el mismo nombre.
-    public_id: imagePath,   // Define el ID público basado en la ruta proporcionada.
     folder: "users",        // Almacena las imágenes en la carpeta "users".
   };
 

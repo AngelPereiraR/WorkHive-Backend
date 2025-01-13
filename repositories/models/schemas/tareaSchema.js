@@ -83,6 +83,6 @@ export const tareaSchema = new Schema({
   },
 },
   {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
   }
 );

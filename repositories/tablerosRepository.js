@@ -21,7 +21,7 @@ async function create(data) {
  * @returns {Promise<Array<Object>>} Lista de tableros.
  */
 async function list() {
-  return await TableroModel.find().sort({ createdAt: 'DESC' }).exec();
+  return await TableroModel.find().sort({ createdAt: 'desc' }).exec();
 }
 
 /**
