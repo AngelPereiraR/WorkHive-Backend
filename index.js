@@ -7,6 +7,8 @@ import { indexController } from "./controllers/indexController.js";
 import { usuariosController } from "./controllers/usuariosController.js";
 import { customErrorHandler } from "./errors/customErrorHandler.js";
 import { pathNotFoundHandler } from './errors/pathNotFoundHandler.js';
+import { tablerosController } from "./controllers/tablerosController.js";
+import { tareasController } from "./controllers/tareasController.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -47,6 +49,8 @@ console.info(`Entorno de ejecución ${process.env.NODE_ENV}`);
  */
 app.use(indexController);
 app.use(usuariosController);
+app.use(tablerosController);
+app.use(tareasController);
 
 /**
  * Middleware para manejar rutas no encontradas.

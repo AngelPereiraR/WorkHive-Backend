@@ -176,7 +176,7 @@ tablerosController.route('/tableros/colaborador/:userId')
    * @param {Object} req - Objeto de solicitud.
    * @param {Object} res - Objeto de respuesta.
    */
-  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat("userId"), async (req, res) => {
     const userId = req.params.userId;
     const tableros = await tablerosRepository.getByCollaborator(userId);
     res.json(tableros);
@@ -197,10 +197,34 @@ tablerosController.route('/tableros/administrador/:userId')
    * @param {Object} req - Objeto de solicitud.
    * @param {Object} res - Objeto de respuesta.
    */
-  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat("userId"), async (req, res) => {
     const userId = req.params.userId;
     const tableros = await tablerosRepository.getByAdministrator(userId);
     res.json(tableros);
+  });
+
+/**
+ * @route /tableros/:id/actual
+ * @description Verifica si un tablero es el proyecto actual basado en la fecha de finalización.
+ */
+tablerosController.route('/tableros/:id/actual')
+  /**
+   * Verifica si el tablero es el proyecto actual.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @returns {Object} JSON con `{ actual: boolean }`.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
+    const itemId = req.params.id;
+    const item = await tablerosRepository.getOne(itemId);
+    if (!item) {
+      return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
+    }
+    const actual = tablerosRepository.isProyectoActual(Date.now(), item.fechaFin);
+    res.json({ actual });
   });
 
 export { tablerosController };
