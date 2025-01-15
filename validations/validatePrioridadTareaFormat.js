@@ -1,4 +1,4 @@
-import {BadRequestError} from "../errors/BadRequestError.js";
+import { BadRequestError } from "../errors/BadRequestError.js";
 
 /**
  * Middleware para validar el formato de la prioridad
@@ -9,7 +9,7 @@ import {BadRequestError} from "../errors/BadRequestError.js";
  */
 export const validatePrioridadTareaFormat = (paramName = 'prioridad') => {
     return (req, res, next) => {
-        const paramValue = req.params[paramName] || '';
+        const paramValue = req.body[paramName] || '';
 
         if (paramValue === "baja" || paramValue === "media" || paramValue === "alta") {
             next();

@@ -53,13 +53,13 @@ async function listByState(tablero, state) {
  * Lista las tareas de un tablero filtradas por una fecha límite
  *
  * @async
- * @function listByState
+ * @function listByLimitDate
  * @param {string} tablero - Identificador del tablero
  * @param {date} date - Fecha límite para filtrar
- * @return {Promise<Array<Object>>} Lista de tareas de un tablero con una fecha límite
+ * @return {Promise<Array<Object>>} Lista de tareas de un tablero con una fecha límite menor a la fecha pasada
  */
 async function listByLimitDate(tablero, date) {
-    return await TareaModel.find({ tablero: tablero, fechaLimite: date }).exec();
+    return await TareaModel.find({ tablero: tablero, fechaLimite: { $lte: date } }).exec();
 }
 
 /**
