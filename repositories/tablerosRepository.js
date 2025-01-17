@@ -21,7 +21,7 @@ async function create(data) {
  * @returns {Promise<Array<Object>>} Lista de tableros.
  */
 async function list() {
-  return await TableroModel.find().sort({ createdAt: 'DESC' }).exec();
+  return await TableroModel.find().sort({ createdAt: 'desc' }).exec();
 }
 
 /**
@@ -34,7 +34,7 @@ async function list() {
  */
 async function getOne(id) {
   const params = { _id: id };
-  return await TableroModel.findById(id).exec();
+  return await TableroModel.findOne(params).exec();
 }
 
 /**
@@ -46,7 +46,7 @@ async function getOne(id) {
  * @returns {Promise<Object|null>} El tablero eliminado o null si no existe.
  */
 async function remove(id) {
-  return await TableroModel.findByIdAndDelete({ _id: id }).exec();
+  return await TableroModel.findOneAndDelete({ _id: id }).exec();
 }
 
 /**
@@ -59,7 +59,7 @@ async function remove(id) {
  * @returns {Promise<Object|null>} El tablero actualizado o null si no existe.
  */
 async function update(id, data) {
-  return await TableroModel.findByIdAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
+  return await TableroModel.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
 }
 
 /**
@@ -73,7 +73,6 @@ async function update(id, data) {
 async function getByCollaborator(userId) {
   const tableros = await TableroModel.find({ colaboradores: userId })
     .select('_id colaboradores')
-    .populate('colaboradores', 'nombre')
     .exec();
 
   return tableros.map(tablero => ({
@@ -93,8 +92,8 @@ async function getByCollaborator(userId) {
  * @returns {Promise<Object|null>} El tablero actualizado con el nuevo colaborador, o null si no se encuentra el tablero.
  */
 async function addCollaborator(tableroId, userId) {
-  return await TableroModel.findByIdAndUpdate(
-    tableroId,
+  return await TableroModel.findOneAndUpdate(
+    { _id: tableroId, colaboradores: { $ne: userId } },
     { $addToSet: { colaboradores: userId } },
     { new: true, runValidators: true }
   ).exec();
@@ -111,7 +110,7 @@ async function addCollaborator(tableroId, userId) {
  */
 async function removeCollaborator(tableroId, userId) {
   return await TableroModel.findByIdAndUpdate(
-    tableroId,
+    { _id: tableroId, colaboradores: { $ne: userId } },
     { $pull: { colaboradores: userId } },
     { new: true }
   ).exec();
@@ -134,15 +133,15 @@ async function getByAdministrator(administratorId) {
 
 
 /**
- * Determina si un proyecto es actual basado en sus fechas de inicio y fin.
+ * Determina si un proyecto es actual basado en la fecha actual y su fecha de fin.
  * 
  * @function isProyectoActual
- * @param {Date} fechaInicio - Fecha de inicio del proyecto.
+ * @param {Date} fechaActual - Fecha actual.
  * @param {Date} fechaFin - Fecha de fin del proyecto.
  * @returns {boolean} True si es un proyecto actual, false si está finalizado.
  */
-function isProyectoActual(fechaInicio, fechaFin) {
-  return fechaFin > fechaInicio;
+function isProyectoActual(fechaActual, fechaFin) {
+  return fechaFin > fechaActual;
 }
 
 

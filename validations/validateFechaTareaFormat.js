@@ -1,4 +1,4 @@
-import {BadRequestError} from "../errors/BadRequestError.js";
+import { BadRequestError } from "../errors/BadRequestError.js";
 
 /**
  * Middleware para validar el formato de la fecha
@@ -9,7 +9,7 @@ import {BadRequestError} from "../errors/BadRequestError.js";
  */
 export const validateFechaTareaFormat = (paramName = 'fecha') => {
     return (req, res, next) => {
-        const paramValue = req.params[paramName] || '';
+        const paramValue = req.body[paramName] || '';
 
         if (!isValidDate(paramValue)) {
             next(new BadRequestError(`param_${paramName}_is_not_a_valid_date`.toLowerCase()));
@@ -25,14 +25,16 @@ export const validateFechaTareaFormat = (paramName = 'fecha') => {
  * @returns {boolean} True si es una fecha válida o False si no es válida
  */
 function isValidDate(fecha) {
-    // Expresión regular para verificar el formato dd-mm-yyyy
-    const regexFecha = /^(\d{2})-(\d{2})-(\d{4})$/;
+    // Expresión regular con grupos de captura para mm, dd y yyyy
+    const regexFecha = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/(\d{4})$/;
 
-    if (!regexFecha.test(fecha)) {
+    const match = fecha.match(regexFecha);
+
+    if (!match) {
         return false;
     }
 
-    const [, dia, mes, anio] = fecha.match(regexFecha);
+    const [, mes, dia, anio] = match; // Extrae mes, día y año de los grupos de captura
     const numDia = parseInt(dia, 10);
     const numMes = parseInt(mes, 10);
     const numAnio = parseInt(anio, 10);

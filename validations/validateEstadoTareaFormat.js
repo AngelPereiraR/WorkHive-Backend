@@ -1,4 +1,4 @@
-import {BadRequestError} from "../errors/BadRequestError.js";
+import { BadRequestError } from "../errors/BadRequestError.js";
 
 /**
  * Middleware para validar el formato del estadp
@@ -9,7 +9,7 @@ import {BadRequestError} from "../errors/BadRequestError.js";
  */
 export const validateEstadoTareaFormat = (paramName = 'estado') => {
     return (req, res, next) => {
-        const paramValue = req.params[paramName] || '';
+        const paramValue = req.body[paramName] || '';
 
         if (paramValue === "pendiente" || paramValue === "en_proceso" || paramValue === "en_revision" || paramValue === "completada") {
             next();

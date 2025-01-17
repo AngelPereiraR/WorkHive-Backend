@@ -8,7 +8,7 @@ yup.setLocale(es);
  * 
  * @constant {yup.ObjectSchema} schema
  */
-const schema = yup.object().shape({
+const updateUsuarioValidations = yup.object().shape({
   /**
    * Validación opcional del nombre del usuario.
    * Debe ser una cadena con al menos 3 caracteres si se proporciona.
@@ -50,33 +50,9 @@ const schema = yup.object().shape({
    * Validación opcional de la URL de la foto de perfil.
    * Puede ser nula o una URL válida si se proporciona.
    */
-  fotoPerfil: yup.string()
-    .url('La URL de la foto de perfil no es válida.')
+  fotoPerfil: yup.string('La URL de la foto de perfil no es válida.')
     .nullable()
     .notRequired()
 });
 
-/**
- * Middleware para validar los datos de actualización de usuarios.
- * 
- * @async
- * @function
- * @param {Object} req - Objeto de solicitud HTTP.
- * @param {Object} res - Objeto de respuesta HTTP.
- * @param {Function} next - Función para pasar al siguiente middleware.
- * @throws {Error} Si la validación falla, se pasa el error al siguiente middleware.
- */
-export const updateUsuarioValidations = async (req, res, next) => {
-  try {
-    // Validamos los datos recibidos según el esquema definido
-    const data = await schema.validate(req.body, { abortEarly: false, stripUnknown: true });
-
-    // Guardamos los datos validados en req.curatedBody
-    req.curatedBody = data;
-    next();
-  } catch (e) {
-    // Pasamos los errores de validación al siguiente middleware
-    next(e);
-  }
-};
-
+export { updateUsuarioValidations }
