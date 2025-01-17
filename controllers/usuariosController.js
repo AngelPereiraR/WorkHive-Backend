@@ -8,6 +8,9 @@ import { sha512 } from 'js-sha512';
 import { validateObjectIdFormat } from '../validations/validateObjectIdFormat.js';
 import { createUserToken } from '../utils/createUserToken.js';
 import { sessionChecker } from '../security/sessionChecker.js';
+import isValidToken from '../utils/isValidToken.js';
+
+const invalidTokens = new Set();
 
 /**
  * Controlador para gestionar rutas relacionadas con usuarios.
@@ -131,6 +134,72 @@ usuariosController.route('/usuarios/logins')
 
     res.status(201).json(responseData);
   });
+
+
+
+/**
+ * Ruta para gestionar el cierre de sesión de un usuario.
+ * 
+ * @name /usuarios/logout
+ * @function
+ */
+usuariosController.route('/usuarios/logout')
+  /**
+   * Cierra sesión de un usuario.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .post(async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+
+    // Verificar si el token es válido (antes de invalidarlo)
+    if (!isValidToken(token, invalidTokens)) {
+      return res.status(401).json({ message: 'Token inválido' });
+    }
+
+    invalidTokens.add(token);
+
+    res.status(200).json({ message: 'Sesión cerrada correctamente' });
+  });
+
+/**
+* Ruta para verificar si el token sigue siendo válido.
+* 
+* @name /usuarios/verify-token
+* @function
+*/
+usuariosController.route('/usuarios/verify-token')
+  /**
+   * Verifica si un token sigue siendo válido.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .post(async (req, res) => {
+    try {
+      const token = req.headers.authorization?.split(' ')[1];
+
+      if (!token) {
+        return res.status(400).json({ message: 'Token no proporcionado' });
+      }
+
+      // Verificar si el token es válido
+      if (!isValidToken(token, invalidTokens) || invalidTokens.has(token)) {
+        return res.status(401).json({ message: 'Token inválido o expirado' });
+      }
+
+      // Si es válido, devolver una respuesta positiva
+      res.status(200).json({ message: 'Token válido' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al verificar el token', error: error.message });
+    }
+  });
+
 
 /**
  * Ruta para gestionar un usuario específico por su ID.
