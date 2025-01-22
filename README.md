@@ -2,7 +2,7 @@
 
 ## Descripción
 
-WorkHive Backend es una API RESTful desarrollada con Node.js y Express, diseñada para gestionar proyectos colaborativos. La aplicación permite la creación, actualización y eliminación de usuarios, tableros y tareas, así como la autenticación y autorización de usuarios mediante JWT y Firebase Authentication.
+WorkHive Backend es una API RESTful desarrollada con Node.js y Express, diseñada para gestionar proyectos colaborativos. La aplicación permite la creación, actualización y eliminación de usuarios, tableros y tareas, así como la autenticación y autorización de usuarios mediante JWT.
 
 ---
 
