@@ -71,9 +71,7 @@ async function update(id, data) {
  * @returns {Promise<Array<Object>>} Lista de tableros del colaborador.
  */
 async function getByCollaborator(userId) {
-  return await TableroModel.find({ colaboradores: userId })
-    .select('_id colaboradores')
-    .exec();
+  return await TableroModel.find({ colaboradores: userId }).exec();
 }
 
 
