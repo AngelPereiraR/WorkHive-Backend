@@ -68,17 +68,12 @@ async function update(id, data) {
  * @async
  * @function getByCollaborator
  * @param {string} userId - Id del usuario colaborador.
- * @returns {Promise<Array<Object>>} Array de objetos, cada uno conteniendo el ID del tablero y sus colaboradores.
+ * @returns {Promise<Array<Object>>} Lista de tableros del colaborador.
  */
 async function getByCollaborator(userId) {
-  const tableros = await TableroModel.find({ colaboradores: userId })
+  return await TableroModel.find({ colaboradores: userId })
     .select('_id colaboradores')
     .exec();
-
-  return tableros.map(tablero => ({
-    tableroId: tablero._id,
-    colaboradores: tablero.colaboradores
-  }));
 }
 
 
