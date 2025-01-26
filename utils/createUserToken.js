@@ -9,7 +9,8 @@ export const createUserToken = (usuario) => {
   const payload = {
     id: usuario._id,
     nombre: usuario.nombre,
-    rol: usuario.rol
+    rol: usuario.rol,
+    email: usuario.email
   }
 
   //generamos el token con el payload previamente confeccionado
