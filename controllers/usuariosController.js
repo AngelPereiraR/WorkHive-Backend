@@ -89,7 +89,7 @@ usuariosController.route('/usuarios')
    * @param {Object} req - Objeto de solicitud.
    * @param {Object} res - Objeto de respuesta.
    */
-  .get(sessionChecker(['administrador'], true), async (req, res) => {
+  .get(sessionChecker(['administrador, usuario'], true), async (req, res) => {
     const itemList = await usuariosRepository.list();
 
     const preparedData = itemList.map((item) => {
