@@ -1,5 +1,6 @@
 import express from 'express';
 import { tablerosRepository } from '../repositories/tablerosRepository.js';
+import { usuariosRepository } from '../repositories/usuariosRepository.js';
 import { createTableroValidations } from '../validations/createTableroValidations.js';
 import { updateTableroValidations } from '../validations/updateTableroValidations.js';
 import { validateObjectIdFormat } from '../validations/validateObjectIdFormat.js';
@@ -134,6 +135,10 @@ tablerosController.route('/tableros/:id/colaboradores')
   .post(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
     const tableroId = req.params.id;
     const { userId } = req.body;
+    const user = await usuariosRepository.getOne(userId);
+    if (!user) {
+      return res.status(404).json({ message: `Usuario con id ${userId} no encontrado` });
+    }
     const tablero = await tablerosRepository.getOne(tableroId);
     if (!tablero) {
       return res.status(404).json({ message: `Tablero con id ${tableroId} no encontrado` });
@@ -153,6 +158,10 @@ tablerosController.route('/tableros/:id/colaboradores')
   .delete(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
     const tableroId = req.params.id;
     const { userId } = req.body;
+    const user = await usuariosRepository.getOne(userId);
+    if (!user) {
+      return res.status(404).json({ message: `Usuario con id ${userId} no encontrado` });
+    }
     const tablero = await tablerosRepository.getOne(tableroId);
     if (!tablero) {
       return res.status(404).json({ message: `Tablero con id ${tableroId} no encontrado` });
