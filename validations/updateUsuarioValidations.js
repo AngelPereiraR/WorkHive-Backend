@@ -51,8 +51,8 @@ const updateUsuarioValidations = yup.object().shape({
    * Puede ser nula o una URL válida si se proporciona.
    */
   fotoPerfil: yup.string('La URL de la foto de perfil no es válida.')
-    .nullable()
     .notRequired()
+    .nullable()
 });
 
 export { updateUsuarioValidations }

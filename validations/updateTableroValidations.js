@@ -22,6 +22,7 @@ export const updateTableroSchema = yup.object().shape({
    * Debe ser una cadena, sin espacios al inicio o final.
    */
   descripcion: yup.string()
+    .notRequired()
     .trim(),
 
   /**
@@ -29,6 +30,7 @@ export const updateTableroSchema = yup.object().shape({
    * Debe ser una fecha válida o nula.
    */
   fechaInicio: yup.date()
+    .notRequired()
     .nullable(),
 
   /**
@@ -36,6 +38,7 @@ export const updateTableroSchema = yup.object().shape({
    * Debe ser una fecha válida o nula.
    */
   fechaFin: yup.date()
+    .notRequired()
     .nullable(),
 
   /**
@@ -44,7 +47,7 @@ export const updateTableroSchema = yup.object().shape({
    */
   administrador: yup.string()
     .matches(/^[0-9a-fA-F]{24}$/, 'El ID del administrador debe ser un ObjectId válido.')
-    .required('El administrador del tablero es obligatorio.'),
+    .notRequired(),
 
   /**
    * Validación de los colaboradores del tablero.
@@ -52,6 +55,7 @@ export const updateTableroSchema = yup.object().shape({
    */
   colaboradores: yup.array()
     .of(yup.string().matches(/^[0-9a-fA-F]{24}$/, 'El ID del colaborador debe ser un ObjectId válido.'))
+    .notRequired()
     .nullable()
 });
 
