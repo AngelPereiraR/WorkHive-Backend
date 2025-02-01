@@ -105,3 +105,9 @@ npm start
 
 - **customErrorHandler:** Middleware para manejar errores personalizados y globales.
 - **pathNotFoundHandler:** Middleware para manejar rutas no encontradas.
+
+---
+
+## Documentación
+
+Consulta nuestra documentación completa generada con JSDoc [aquí](https://angelpereirar.github.io/WorkHive-Backend/)

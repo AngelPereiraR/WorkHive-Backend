@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: repositories/tareasRepository.js | Source: repositories/tareasRepository.js</title>
+    <title>Module: tareasController | Module: tareasController</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -26,7 +24,7 @@
         
     </div>
     <div class="title">
-        <h1><a href="index.html" class="link">Source: repositories/tareasRepository.js</a></h1>
+        <h1><a href="index.html" class="link">Module: tareasController</a></h1>
         
     </div>
     <div class="search-container" id="search-container">
@@ -43,151 +41,686 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import { TareaModel } from "./models/tareaModel.js";
+        <h2>tareasController</h2>
+        
+            
+        
+    
+</header>
 
-/**
- * Crea una nueva tarea en la base de datos
- *
- * @async
- * @function create
- * @param {Object} data - Datos de la tarea a crear
- * @returns {Promise&lt;Object>} La tarea creada
- */
-async function create(data) {
-    return await new TareaModel(data).save();
-}
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description"><p>Controlador para gestionar tutas relacionadas con tareas</p></div>
+            
 
-/**
- * Lista todas las tereas ordenadas por nombre de forma descendente
- *
- * @async
- * @function list
- * @return {Promise&lt;Array&lt;Object>>} Lista de tareas ordenada.
- */
-async function list() {
-    return await TareaModel.find().sort({ nombre: "desc" }).exec();
-}
+            
+                
 
-/**
- * Lista las tareas de un tablero filtradas por el valor de la prioridad
- *
- * @async
- * @function listByPriority
- * @param {string} tablero - Identificador del tablero
- * @param {string} priority - Prioridad para filtrar
- * @return {Promise&lt;Array&lt;Object>>} Lista de tareas de un tablero con una prioridad determinada
- */
-async function listByPriority(tablero, priority) {
-    return await TareaModel.find({ tablero: tablero, prioridad: priority }).exec();
-}
+<dt>
+    
+</dt>
+<dd>
 
-/**
- * Lista las tareas de un tablero filtradas por el valor del estado
- *
- * @async
- * @function listByState
- * @param {string} tablero - Identificador del tablero
- * @param {string} state - Estado para filtrar
- * @return {Promise&lt;Array&lt;Object>>} Lista de tareas de un tablero con un estado determinado
- */
-async function listByState(tablero, state) {
-    return await TareaModel.find({ tablero: tablero, estado: state }).exec()
-}
+    
 
-/**
- * Lista las tareas de un tablero filtradas por una fecha límite
- *
- * @async
- * @function listByLimitDate
- * @param {string} tablero - Identificador del tablero
- * @param {date} date - Fecha límite para filtrar
- * @return {Promise&lt;Array&lt;Object>>} Lista de tareas de un tablero con una fecha límite menor a la fecha pasada
- */
-async function listByLimitDate(tablero, date) {
-    return await TareaModel.find({ tablero: tablero, fechaLimite: { $lte: date } }).exec();
-}
+    
 
-/**
- * Lista las tareas de un tablero filtradas por el usuario asignado
- *
- * @async
- * @function listByUserAsigned
- * @param {string} tablero - Identificador del tablero
- * @param {string} id - Usuario asignado para filtrar
- * @return {Promise&lt;Array&lt;Object>>} Lista de tareas de un tablero con un usuario asignado
- */
-async function listByUserAsigned(tablero, id) {
-    return await TareaModel.find({ tablero: tablero, asignadoA: id }).exec();
-}
+    
 
-/**
- * Obtiene una tarea por su ID.
- *
- * @async
- * @function getOne
- * @param {string} id - ID único de la tarea.
- * @returns {Promise&lt;Object|null>} La tarea encontrada o null si no existe.
- */
-async function getOne(id) {
-    const params = { _id: id };
-    return await TareaModel.findOne(params).exec();
-}
+    
 
-/**
- * Elimina una tarea por su ID.
- *
- * @async
- * @function remove
- * @param {string} id - ID único de la tarea a eliminar.
- * @returns {Promise&lt;Object|null>} La tarea eliminada o null si no existe.
- */
-async function remove(id) {
-    return await TareaModel.findOneAndDelete({ _id: id }).exec();
-}
+    
 
-/**
- * Actualiza la tarea por su ID con los datos proporcionados.
- *
- * @async
- * @function update
- * @param {string} id - ID único de la tarea a actualizar.
- * @param {Object} data - Datos de la tarea a actualizar.
- * @returns {Promise&lt;Object|null>} La tarea actualizada o null si no existe.
- */
-async function update(id, data) {
-    return await TareaModel.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true }).exec();
-}
+    
 
-/**
- * Repositorio de tareas que contiene las operaciones principales sobre la base de datos
- *
- * @namespace tareasRepository
- * @property {Function} create - Crea una tarea nueva
- * @property {Function} list - Lista todas las tareas
- * @property {Function} listByPriority - Lista las tareas de un tablero filtrando por su prioridad
- * @property {Function} listByState - Lista las tareas de un tablero filtrando por su estado
- * @property {Function} listByLimitDate - Lista las tareas de un tablero filtrando por su fecha límite
- * @property {Function} listByUserAsigned - Lista las tareas de un tablero filtrando por su usuario asignado
- * @property {Function} getOne - Obtiene una tarea por su ID
- * @property {Function} remove - Elimina una tarea por su ID
- * @property {Function} update - Actualiza una tarea por su ID
- */
-export const tareasRepository = {
-    create,
-    list,
-    listByPriority,
-    listByState,
-    listByLimitDate,
-    listByUserAsigned,
-    getOne,
-    remove,
-    update,
-}</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+        
+        </div>
+    
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:express</li>
+        
+            <li>module:../validations/createTareaValidations.js</li>
+        
+            <li>module:../repositories/tareasRepository.js</li>
+        
+            <li>module:../security/sessionChecker.js</li>
+        
+            <li>module:../validations/validateObjectIdFormat.js</li>
+        
+            <li>module:../validations/updateTareaValidations.js</li>
+        
+            <li>module:../validations/validatePrioridadTareaFormat.js</li>
+        
+            <li>module:../validations/validateEstadoTareaFormat.js</li>
+        
+            <li>module:../validations/validateFechaTareaFormat.js</li>
+        
+            <li>module:../validations/validateAsignadoTareaFormat.js</li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id="~/tareas">
+            
+                <span class="type-signature"><span class="icon green">inner</span> </span>/tareas<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="controllers_tareasController.js.html">controllers/tareasController.js</a></code>,
+                <code><a href="controllers_tareasController.js.html#line28">line 28</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Ruta para crear y listar tareas</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="~/tareas/:id">
+            
+                <span class="type-signature"><span class="icon green">inner</span> </span>/tareas/:id<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="controllers_tareasController.js.html">controllers/tareasController.js</a></code>,
+                <code><a href="controllers_tareasController.js.html#line158">line 158</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Ruta para gestionar tareas específicas por su ID</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="~/tareas/asignado">
+            
+                <span class="type-signature"><span class="icon green">inner</span> </span>/tareas/asignado<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="controllers_tareasController.js.html">controllers/tareasController.js</a></code>,
+                <code><a href="controllers_tareasController.js.html#line112">line 112</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Ruta para consultar las tareas de un tablero filtrando por su usuario asignado</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="~/tareas/estado">
+            
+                <span class="type-signature"><span class="icon green">inner</span> </span>/tareas/estado<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="controllers_tareasController.js.html">controllers/tareasController.js</a></code>,
+                <code><a href="controllers_tareasController.js.html#line89">line 89</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Ruta para consultar las tareas de un tablero filtrando por su estado</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="~/tareas/fechaLimite">
+            
+                <span class="type-signature"><span class="icon green">inner</span> </span>/tareas/fechaLimite<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="controllers_tareasController.js.html">controllers/tareasController.js</a></code>,
+                <code><a href="controllers_tareasController.js.html#line135">line 135</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Ruta para consultar las tareas de un tablero filtrando por su fecha límite</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="~/tareas/prioridad">
+            
+                <span class="type-signature"><span class="icon green">inner</span> </span>/tareas/prioridad<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="controllers_tareasController.js.html">controllers/tareasController.js</a></code>,
+                <code><a href="controllers_tareasController.js.html#line66">line 66</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Ruta para consultar las tareas de un tablero filtrando por su prioridad</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -204,7 +737,7 @@ export const tareasRepository = {
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'module:tareasController_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

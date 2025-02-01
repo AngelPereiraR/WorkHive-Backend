@@ -11,6 +11,17 @@ import { validateAsignadoTareaFormat } from "../validations/validateAsignadoTare
 
 /**
  * Controlador para gestionar tutas relacionadas con tareas
+ * @module tareasController
+ * @requires express
+ * @requires ../validations/createTareaValidations.js
+ * @requires ../repositories/tareasRepository.js
+ * @requires ../security/sessionChecker.js
+ * @requires ../validations/validateObjectIdFormat.js
+ * @requires ../validations/updateTareaValidations.js
+ * @requires ../validations/validatePrioridadTareaFormat.js
+ * @requires ../validations/validateEstadoTareaFormat.js
+ * @requires ../validations/validateFechaTareaFormat.js
+ * @requires ../validations/validateAsignadoTareaFormat.js
  */
 const tareasController = express.Router();
 
