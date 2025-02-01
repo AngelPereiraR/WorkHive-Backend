@@ -32,19 +32,38 @@ const usuariosController = express.Router();
 /**
  * Ruta para crear y listar usuarios.
  * 
- * @name /usuarios
+ * @name POST /usuarios
  * @function
+ * @memberof module:usuariosController
+ * @inner
+ * @param {Object} req.body - Datos del usuario a crear
+ * @param {string} req.body.nombre - Nombre del usuario
+ * @param {string} req.body.email - Correo electrónico del usuario
+ * @param {string} req.body.password - Contraseña del usuario
+ * @param {string} [req.body.rol='usuario'] - Rol del usuario (administrador o usuario)
+ * @param {File} [req.files.fotoPerfil] - Foto de perfil del usuario
+ * @returns {Object} 201 - Usuario creado
+ * @returns {Object} 400 - Error de validación o usuario existente
+ * @example
+ * POST /usuarios
+ * {
+ *   "nombre": "Juan Pérez",
+ *   "email": "juan@example.com",
+ *   "password": "Contraseña123!",
+ *   "rol": "usuario"
+ * }
+ * 
+ * Response: 201 Created
+ * {
+ *   "_id": "60d5ecb54d6eb31234567890",
+ *   "nombre": "Juan Pérez",
+ *   "email": "juan@example.com",
+ *   "rol": "usuario",
+ *   "createdAt": "2023-06-25T12:00:00.000Z",
+ *   "updatedAt": "2023-06-25T12:00:00.000Z"
+ * }
  */
 usuariosController.route('/usuarios')
-  /**
-   * Crea un nuevo usuario.
-   * 
-   * @async
-   * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
-   * @param {Function} next - Siguiente middleware.
-   */
   .post(async (req, res, next) => {
     try {
       const form = formidable({ multiples: true });
@@ -81,13 +100,32 @@ usuariosController.route('/usuarios')
       next(e);
     }
   })
+
   /**
    * Lista todos los usuarios.
    * 
-   * @async
+   * @name GET /usuarios
    * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
+   * @memberof module:usuariosController
+   * @inner
+   * @param {Object} req - Objeto de solicitud Express
+   * @param {Object} res - Objeto de respuesta Express
+   * @returns {Object[]} 200 - Lista de usuarios
+   * @example
+   * GET /usuarios
+   * 
+   * Response: 200 OK
+   * [
+   *   {
+   *     "_id": "60d5ecb54d6eb31234567890",
+   *     "nombre": "Juan Pérez",
+   *     "email": "juan@example.com",
+   *     "rol": "usuario",
+   *     "createdAt": "2023-06-25T12:00:00.000Z",
+   *     "updatedAt": "2023-06-25T12:00:00.000Z"
+   *   },
+   *   // ... más usuarios
+   * ]
    */
   .get(sessionChecker(['administrador', 'usuario'], true), async (req, res) => {
     const itemList = await usuariosRepository.list();
@@ -104,18 +142,34 @@ usuariosController.route('/usuarios')
 /**
  * Ruta para gestionar logins de usuarios.
  * 
- * @name /usuarios/logins
+ * @name POST /usuarios/logins
  * @function
+ * @memberof module:usuariosController
+ * @inner
+ * @param {Object} req.body - Credenciales de inicio de sesión
+ * @param {string} req.body.email - Correo electrónico del usuario
+ * @param {string} req.body.password - Contraseña del usuario
+ * @returns {Object} 201 - Usuario autenticado y token
+ * @returns {Object} 401 - Credenciales inválidas
+ * @example
+ * POST /usuarios/logins
+ * {
+ *   "email": "juan@example.com",
+ *   "password": "Contraseña123!"
+ * }
+ * 
+ * Response: 201 Created
+ * {
+ *   "user": {
+ *     "_id": "60d5ecb54d6eb31234567890",
+ *     "nombre": "Juan Pérez",
+ *     "email": "juan@example.com",
+ *     "rol": "usuario"
+ *   },
+ *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ * }
  */
 usuariosController.route('/usuarios/logins')
-  /**
-   * Inicia sesión con un usuario.
-   * 
-   * @async
-   * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
-   */
   .post(loginUsuarioValidations, async (req, res) => {
     const userEmail = req.curatedBody.email;
     const receivedPasswordHash = sha512(req.curatedBody.password);
@@ -135,23 +189,26 @@ usuariosController.route('/usuarios/logins')
     res.status(201).json(responseData);
   });
 
-
-
 /**
  * Ruta para gestionar el cierre de sesión de un usuario.
  * 
- * @name /usuarios/logout
+ * @name POST /usuarios/logout
  * @function
+ * @memberof module:usuariosController
+ * @inner
+ * @param {string} req.headers.authorization - Token de autorización
+ * @returns {Object} 200 - Mensaje de sesión cerrada
+ * @returns {Object} 401 - Token inválido
+ * @example
+ * POST /usuarios/logout
+ * Headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+ * 
+ * Response: 200 OK
+ * {
+ *   "message": "Sesión cerrada correctamente"
+ * }
  */
 usuariosController.route('/usuarios/logout')
-  /**
-   * Cierra sesión de un usuario.
-   * 
-   * @async
-   * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
-   */
   .post(async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
 
@@ -166,20 +223,25 @@ usuariosController.route('/usuarios/logout')
   });
 
 /**
-* Ruta para verificar si el token sigue siendo válido.
-* 
-* @name /usuarios/verify-token
-* @function
-*/
+ * Ruta para verificar si el token sigue siendo válido.
+ * 
+ * @name POST /usuarios/verify-token
+ * @function
+ * @memberof module:usuariosController
+ * @inner
+ * @param {string} req.headers.authorization - Token de autorización
+ * @returns {Object} 200 - Token válido
+ * @returns {Object} 401 - Token inválido o expirado
+ * @example
+ * POST /usuarios/verify-token
+ * Headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+ * 
+ * Response: 200 OK
+ * {
+ *   "message": "Token válido"
+ * }
+ */
 usuariosController.route('/usuarios/verify-token')
-  /**
-   * Verifica si un token sigue siendo válido.
-   * 
-   * @async
-   * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
-   */
   .post(async (req, res) => {
     try {
       const token = req.headers.authorization?.split(' ')[1];
@@ -200,22 +262,30 @@ usuariosController.route('/usuarios/verify-token')
     }
   });
 
-
 /**
  * Ruta para gestionar un usuario específico por su ID.
  * 
- * @name /usuarios/:id
+ * @name GET /usuarios/:id
  * @function
+ * @memberof module:usuariosController
+ * @inner
+ * @param {string} req.params.id - ID del usuario (ObjectId de MongoDB)
+ * @returns {Object} 200 - Datos del usuario
+ * @returns {Object} 404 - Usuario no encontrado
+ * @example
+ * GET /usuarios/60d5ecb54d6eb31234567890
+ * 
+ * Response: 200 OK
+ * {
+ *   "_id": "60d5ecb54d6eb31234567890",
+ *   "nombre": "Juan Pérez",
+ *   "email": "juan@example.com",
+ *   "rol": "usuario",
+ *   "createdAt": "2023-06-25T12:00:00.000Z",
+ *   "updatedAt": "2023-06-25T12:00:00.000Z"
+ * }
  */
 usuariosController.route('/usuarios/:id')
-  /**
-   * Obtiene un usuario por su ID.
-   * 
-   * @async
-   * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
-   */
   .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
     const itemId = req.params.id;
     const item = await usuariosRepository.getOne(itemId);
@@ -232,11 +302,35 @@ usuariosController.route('/usuarios/:id')
   /**
    * Actualiza un usuario por su ID.
    * 
-   * @async
+   * @name PUT /usuarios/:id
    * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
-   * @param {Function} next - Siguiente middleware.
+   * @memberof module:usuariosController
+   * @inner
+   * @param {string} req.params.id - ID del usuario (ObjectId de MongoDB)
+   * @param {Object} req.body - Datos del usuario a actualizar
+   * @param {string} [req.body.nombre] - Nuevo nombre del usuario
+   * @param {string} [req.body.email] - Nuevo correo electrónico del usuario
+   * @param {string} [req.body.password] - Nueva contraseña del usuario
+   * @param {string} [req.body.rol] - Nuevo rol del usuario
+   * @param {File} [req.files.fotoPerfil] - Nueva foto de perfil del usuario
+   * @returns {Object} 201 - Usuario actualizado
+   * @returns {Object} 404 - Usuario no encontrado
+   * @example
+   * PUT /usuarios/60d5ecb54d6eb31234567890
+   * {
+   *   "nombre": "Juan Pérez Actualizado",
+   *   "email": "juan.nuevo@example.com"
+   * }
+   * 
+   * Response: 201 Created
+   * {
+   *   "_id": "60d5ecb54d6eb31234567890",
+   *   "nombre": "Juan Pérez Actualizado",
+   *   "email": "juan.nuevo@example.com",
+   *   "rol": "usuario",
+   *   "createdAt": "2023-06-25T12:00:00.000Z",
+   *   "updatedAt": "2023-06-25T13:00:00.000Z"
+   * }
    */
   .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
     const itemId = req.params.id;
@@ -275,10 +369,26 @@ usuariosController.route('/usuarios/:id')
   /**
    * Elimina un usuario por su ID.
    * 
-   * @async
+   * @name DELETE /usuarios/:id
    * @function
-   * @param {Object} req - Objeto de solicitud.
-   * @param {Object} res - Objeto de respuesta.
+   * @memberof module:usuariosController
+   * @inner
+   * @param {string} req.params.id - ID del usuario (ObjectId de MongoDB)
+   * @returns {Object} 204 - Usuario eliminado exitosamente (sin contenido)
+   * @returns {Object} 404 - Usuario no encontrado
+   * @throws {Error} 500 - Error del servidor al intentar eliminar el usuario
+   * @example
+   * DELETE /usuarios/60d5ecb54d6eb31234567890
+   * 
+   * Response: 204 No Content
+   * 
+   * @example
+   * DELETE /usuarios/60d5ecb54d6eb31234567890
+   * 
+   * Response: 404 Not Found
+   * {
+   *   "message": "Usuario con id 60d5ecb54d6eb31234567890 no encontrado"
+   * }
    */
   .delete(sessionChecker(['administrador'], true), validateObjectIdFormat(), async (req, res) => {
     const itemId = req.params.id;
@@ -290,5 +400,6 @@ usuariosController.route('/usuarios/:id')
 
     res.status(204).json();
   });
+
 
 export { usuariosController };
