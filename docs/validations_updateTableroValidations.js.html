@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: validations/updateTableroValidations.js | Source: validations/updateTableroValidations.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="">
+        
+            <img src="img/toast-ui.png" width="100%" height="100%">
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Source: validations/updateTableroValidations.js</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Modules</h3><ul><li><a href="module-TableroModel.html">TableroModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:TableroModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-TableroModel.html#~TableroModel">TableroModel</a></li></ul></div></li><li><a href="module-TareaModel.html">TareaModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:TareaModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-TareaModel.html#~TareaModel">TareaModel</a></li></ul></div></li><li><a href="module-UsuarioModel.html">UsuarioModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:UsuarioModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-UsuarioModel.html#~UsuarioModel">UsuarioModel</a></li></ul></div></li><li><a href="module-cloudinary.html">cloudinary</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:cloudinary_sub"></div></li><li><a href="module-tablerosController.html">tablerosController</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:tablerosController_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="module-tablerosController.html#~/tableros">/tableros</a></li><li><a href="module-tablerosController.html#~/tableros/:id">/tableros/:id</a></li><li><a href="module-tablerosController.html#~/tableros/:id/colaboradores">/tableros/:id/colaboradores</a></li><li><a href="module-tablerosController.html#~/tableros/administrador/:userId">/tableros/administrador/:userId</a></li><li><a href="module-tablerosController.html#~/tableros/colaborador/:userId">/tableros/colaborador/:userId</a></li></ul></div></li><li><a href="module-usuariosController.html">usuariosController</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:usuariosController_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="module-usuariosController.html#~/usuarios">/usuarios</a></li><li><a href="module-usuariosController.html#~/usuarios/:id">/usuarios/:id</a></li><li><a href="module-usuariosController.html#~/usuarios/logins">/usuarios/logins</a></li><li><a href="module-usuariosController.html#~/usuarios/logout">/usuarios/logout</a></li><li><a href="module-usuariosController.html#~/usuarios/verify-token">/usuarios/verify-token</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3>Namespaces</h3><ul><li><a href="cloudinaryConfig.html">cloudinaryConfig</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="cloudinaryConfig_sub"></div></li><li><a href="tablerosRepository.html">tablerosRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="tablerosRepository_sub"></div></li><li><a href="tareasRepository.html">tareasRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="tareasRepository_sub"></div></li><li><a href="usuariosRepository.html">usuariosRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="usuariosRepository_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#/tareas">/tareas</a></li><li><a href="global.html#/tareas/:id">/tareas/:id</a></li><li><a href="global.html#/tareas/asignado">/tareas/asignado</a></li><li><a href="global.html#/tareas/estado">/tareas/estado</a></li><li><a href="global.html#/tareas/fechaLimite">/tareas/fechaLimite</a></li><li><a href="global.html#/tareas/prioridad">/tareas/prioridad</a></li><li><a href="global.html#addCollaborator">addCollaborator</a></li><li><a href="global.html#administrador">administrador</a></li><li><a href="global.html#asignadoA">asignadoA</a></li><li><a href="global.html#colaboradores">colaboradores</a></li><li><a href="global.html#comentarios">comentarios</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createTableroSchema">createTableroSchema</a></li><li><a href="global.html#createTableroValidations">createTableroValidations</a></li><li><a href="global.html#createTareaValidations">createTareaValidations</a></li><li><a href="global.html#customErrorHandler">customErrorHandler</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#estado">estado</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fechaFin">fechaFin</a></li><li><a href="global.html#fechaInicio">fechaInicio</a></li><li><a href="global.html#fechaLimite">fechaLimite</a></li><li><a href="global.html#fotoPerfil">fotoPerfil</a></li><li><a href="global.html#getByAdministrator">getByAdministrator</a></li><li><a href="global.html#getByCollaborator">getByCollaborator</a></li><li><a href="global.html#getOne">getOne</a></li><li><a href="global.html#getOneByEmailAndPassword">getOneByEmailAndPassword</a></li><li><a href="global.html#isProyectoActual">isProyectoActual</a></li><li><a href="global.html#isValidDate">isValidDate</a></li><li><a href="global.html#isValidToken">isValidToken</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#listByLimitDate">listByLimitDate</a></li><li><a href="global.html#listByPriority">listByPriority</a></li><li><a href="global.html#listByState">listByState</a></li><li><a href="global.html#listByUserAsigned">listByUserAsigned</a></li><li><a href="global.html#loginUsuarioValidations">loginUsuarioValidations</a></li><li><a href="global.html#mensaje">mensaje</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#pathNotFoundHandler">pathNotFoundHandler</a></li><li><a href="global.html#prioridad">prioridad</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#removeCollaborator">removeCollaborator</a></li><li><a href="global.html#rol">rol</a></li><li><a href="global.html#schema">schema</a></li><li><a href="global.html#tablero">tablero</a></li><li><a href="global.html#tableroSchema">tableroSchema</a></li><li><a href="global.html#tareaSchema">tareaSchema</a></li><li><a href="global.html#tareasController">tareasController</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateTableroSchema">updateTableroSchema</a></li><li><a href="global.html#updateTableroValidations">updateTableroValidations</a></li><li><a href="global.html#updateTareaValidations">updateTareaValidations</a></li><li><a href="global.html#uploadImage">uploadImage</a></li><li><a href="global.html#usuario">usuario</a></li><li><a href="global.html#usuarioSchema">usuarioSchema</a></li><li><a href="global.html#validateAsignadoTareaFormat">validateAsignadoTareaFormat</a></li><li><a href="global.html#validateEstadoTareaFormat">validateEstadoTareaFormat</a></li><li><a href="global.html#validateFechaTareaFormat">validateFechaTareaFormat</a></li><li><a href="global.html#validateObjectIdFormat">validateObjectIdFormat</a></li><li><a href="global.html#validatePrioridadTareaFormat">validatePrioridadTareaFormat</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as yup from 'yup';
+import { es } from 'yup-locales';
+
+yup.setLocale(es);
+
+/**
+ * Esquema de validación para la actualización de un tablero.
+ * 
+ * @constant {yup.ObjectSchema} updateTableroSchema
+ */
+export const updateTableroSchema = yup.object().shape({
+  /**
+   * Validación del nombre del tablero.
+   * Debe ser una cadena, sin espacios al inicio o final, y es obligatorio.
+   */
+  nombre: yup.string()
+    .trim()
+    .required('El nombre del tablero es obligatorio.'),
+
+  /**
+   * Validación de la descripción del tablero.
+   * Debe ser una cadena, sin espacios al inicio o final.
+   */
+  descripcion: yup.string()
+    .notRequired()
+    .trim(),
+
+  /**
+   * Validación de la fecha de inicio del proyecto.
+   * Debe ser una fecha válida o nula.
+   */
+  fechaInicio: yup.date()
+    .notRequired()
+    .nullable(),
+
+  /**
+   * Validación de la fecha de finalización del proyecto.
+   * Debe ser una fecha válida o nula.
+   */
+  fechaFin: yup.date()
+    .notRequired()
+    .nullable(),
+
+  /**
+   * Validación del administrador del tablero.
+   * Debe ser una cadena que contenga un ObjectId válido y es obligatorio.
+   */
+  administrador: yup.string()
+    .matches(/^[0-9a-fA-F]{24}$/, 'El ID del administrador debe ser un ObjectId válido.')
+    .notRequired(),
+
+  /**
+   * Validación de los colaboradores del tablero.
+   * Debe ser una lista de cadenas que contengan ObjectIds válidos.
+   */
+  colaboradores: yup.array()
+    .of(yup.string().matches(/^[0-9a-fA-F]{24}$/, 'El ID del colaborador debe ser un ObjectId válido.'))
+    .notRequired()
+    .nullable()
+});
+
+/**
+ * Middleware para validar la actualización de tableros.
+ * 
+ * @async
+ * @function
+ * @param {Object} req - Objeto de solicitud HTTP.
+ * @param {Object} res - Objeto de respuesta HTTP.
+ * @param {Function} next - Función para pasar al siguiente middleware.
+ * @throws {Error} Si la validación falla, se pasa el error al siguiente middleware.
+ */
+export const updateTableroValidations = async (req, res, next) => {
+  try {
+    req.curatedBody = await updateTableroSchema.validate(req.body, { abortEarly: false, stripUnknown: true });
+    next();
+  } catch (error) {
+    next(error);
+  }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="img/toast-ui.png" style="">
+    <div class="footer-text">NHN Entertainment. Frontend Development Lab</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

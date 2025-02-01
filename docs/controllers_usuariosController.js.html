@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: controllers/usuariosController.js | Source: controllers/usuariosController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="">
+        
+            <img src="img/toast-ui.png" width="100%" height="100%">
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Source: controllers/usuariosController.js</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Modules</h3><ul><li><a href="module-TableroModel.html">TableroModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:TableroModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-TableroModel.html#~TableroModel">TableroModel</a></li></ul></div></li><li><a href="module-TareaModel.html">TareaModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:TareaModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-TareaModel.html#~TareaModel">TareaModel</a></li></ul></div></li><li><a href="module-UsuarioModel.html">UsuarioModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:UsuarioModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-UsuarioModel.html#~UsuarioModel">UsuarioModel</a></li></ul></div></li><li><a href="module-cloudinary.html">cloudinary</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:cloudinary_sub"></div></li><li><a href="module-tablerosController.html">tablerosController</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:tablerosController_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="module-tablerosController.html#~/tableros">/tableros</a></li><li><a href="module-tablerosController.html#~/tableros/:id">/tableros/:id</a></li><li><a href="module-tablerosController.html#~/tableros/:id/colaboradores">/tableros/:id/colaboradores</a></li><li><a href="module-tablerosController.html#~/tableros/administrador/:userId">/tableros/administrador/:userId</a></li><li><a href="module-tablerosController.html#~/tableros/colaborador/:userId">/tableros/colaborador/:userId</a></li></ul></div></li><li><a href="module-usuariosController.html">usuariosController</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:usuariosController_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="module-usuariosController.html#~/usuarios">/usuarios</a></li><li><a href="module-usuariosController.html#~/usuarios/:id">/usuarios/:id</a></li><li><a href="module-usuariosController.html#~/usuarios/logins">/usuarios/logins</a></li><li><a href="module-usuariosController.html#~/usuarios/logout">/usuarios/logout</a></li><li><a href="module-usuariosController.html#~/usuarios/verify-token">/usuarios/verify-token</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3>Namespaces</h3><ul><li><a href="cloudinaryConfig.html">cloudinaryConfig</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="cloudinaryConfig_sub"></div></li><li><a href="tablerosRepository.html">tablerosRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="tablerosRepository_sub"></div></li><li><a href="tareasRepository.html">tareasRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="tareasRepository_sub"></div></li><li><a href="usuariosRepository.html">usuariosRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="usuariosRepository_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#/tareas">/tareas</a></li><li><a href="global.html#/tareas/:id">/tareas/:id</a></li><li><a href="global.html#/tareas/asignado">/tareas/asignado</a></li><li><a href="global.html#/tareas/estado">/tareas/estado</a></li><li><a href="global.html#/tareas/fechaLimite">/tareas/fechaLimite</a></li><li><a href="global.html#/tareas/prioridad">/tareas/prioridad</a></li><li><a href="global.html#addCollaborator">addCollaborator</a></li><li><a href="global.html#administrador">administrador</a></li><li><a href="global.html#asignadoA">asignadoA</a></li><li><a href="global.html#colaboradores">colaboradores</a></li><li><a href="global.html#comentarios">comentarios</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createTableroSchema">createTableroSchema</a></li><li><a href="global.html#createTableroValidations">createTableroValidations</a></li><li><a href="global.html#createTareaValidations">createTareaValidations</a></li><li><a href="global.html#customErrorHandler">customErrorHandler</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#estado">estado</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fechaFin">fechaFin</a></li><li><a href="global.html#fechaInicio">fechaInicio</a></li><li><a href="global.html#fechaLimite">fechaLimite</a></li><li><a href="global.html#fotoPerfil">fotoPerfil</a></li><li><a href="global.html#getByAdministrator">getByAdministrator</a></li><li><a href="global.html#getByCollaborator">getByCollaborator</a></li><li><a href="global.html#getOne">getOne</a></li><li><a href="global.html#getOneByEmailAndPassword">getOneByEmailAndPassword</a></li><li><a href="global.html#isProyectoActual">isProyectoActual</a></li><li><a href="global.html#isValidDate">isValidDate</a></li><li><a href="global.html#isValidToken">isValidToken</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#listByLimitDate">listByLimitDate</a></li><li><a href="global.html#listByPriority">listByPriority</a></li><li><a href="global.html#listByState">listByState</a></li><li><a href="global.html#listByUserAsigned">listByUserAsigned</a></li><li><a href="global.html#loginUsuarioValidations">loginUsuarioValidations</a></li><li><a href="global.html#mensaje">mensaje</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#pathNotFoundHandler">pathNotFoundHandler</a></li><li><a href="global.html#prioridad">prioridad</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#removeCollaborator">removeCollaborator</a></li><li><a href="global.html#rol">rol</a></li><li><a href="global.html#schema">schema</a></li><li><a href="global.html#tablero">tablero</a></li><li><a href="global.html#tableroSchema">tableroSchema</a></li><li><a href="global.html#tareaSchema">tareaSchema</a></li><li><a href="global.html#tareasController">tareasController</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateTableroSchema">updateTableroSchema</a></li><li><a href="global.html#updateTableroValidations">updateTableroValidations</a></li><li><a href="global.html#updateTareaValidations">updateTareaValidations</a></li><li><a href="global.html#uploadImage">uploadImage</a></li><li><a href="global.html#usuario">usuario</a></li><li><a href="global.html#usuarioSchema">usuarioSchema</a></li><li><a href="global.html#validateAsignadoTareaFormat">validateAsignadoTareaFormat</a></li><li><a href="global.html#validateEstadoTareaFormat">validateEstadoTareaFormat</a></li><li><a href="global.html#validateFechaTareaFormat">validateFechaTareaFormat</a></li><li><a href="global.html#validateObjectIdFormat">validateObjectIdFormat</a></li><li><a href="global.html#validatePrioridadTareaFormat">validatePrioridadTareaFormat</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import express from 'express';
+import formidable from 'formidable';
+import { createUsuarioValidations } from '../validations/createUsuarioValidations.js';
+import { usuariosRepository } from '../repositories/usuariosRepository.js';
+import { updateUsuarioValidations } from '../validations/updateUsuarioValidations.js';
+import { loginUsuarioValidations } from '../validations/loginUsuarioValidations.js';
+import { sha512 } from 'js-sha512';
+import { validateObjectIdFormat } from '../validations/validateObjectIdFormat.js';
+import { createUserToken } from '../utils/createUserToken.js';
+import { sessionChecker } from '../security/sessionChecker.js';
+import isValidToken from '../utils/isValidToken.js';
+
+const invalidTokens = new Set();
+
+/**
+ * Controlador para gestionar rutas relacionadas con usuarios.
+ * 
+ * @module usuariosController
+ * @requires express
+ * @requires formidable
+ * @requires ../validations/createUsuarioValidations
+ * @requires ../repositories/usuariosRepository
+ * @requires ../validations/updateUsuarioValidations
+ * @requires ../validations/loginUsuarioValidations
+ * @requires js-sha512
+ * @requires ../validations/validateObjectIdFormat
+ * @requires ../utils/createUserToken
+ * @requires ../security/sessionChecker
+ */
+const usuariosController = express.Router();
+
+/**
+ * Ruta para crear y listar usuarios.
+ * 
+ * @name /usuarios
+ * @function
+ */
+usuariosController.route('/usuarios')
+  /**
+   * Crea un nuevo usuario.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {Function} next - Siguiente middleware.
+   */
+  .post(async (req, res, next) => {
+    try {
+      const form = formidable({ multiples: true });
+      form.parse(req, async (err, fields, files) => {
+        req.curatedBody = fields;
+
+        if (files &amp;&amp; files.fotoPerfil) {
+          req.curatedBody.fotoPerfil = files.fotoPerfil[0].filepath;
+        }
+
+        // Convertir campos a string para garantizar consistencia
+        ['nombre', 'email', 'password', 'rol'].forEach(field => {
+          if (fields[field]) req.curatedBody[field] = fields[field].toString();
+        });
+
+        const existingUsuario = await usuariosRepository.getOneByEmailAndPassword(
+          req.curatedBody.email,
+          sha512(req.curatedBody.password)
+        );
+
+        if (existingUsuario) {
+          return res.status(400).json({ message: 'Ya hay un usuario existente con ese nombre' });
+        }
+
+        const validatedData = await createUsuarioValidations.validate(
+          req.curatedBody,
+          { abortEarly: false, stripUnknown: true }
+        );
+
+        const createdItem = await usuariosRepository.create(validatedData);
+        res.status(201).json(createdItem);
+      });
+    } catch (e) {
+      next(e);
+    }
+  })
+  /**
+   * Lista todos los usuarios.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), async (req, res) => {
+    const itemList = await usuariosRepository.list();
+
+    const preparedData = itemList.map((item) => {
+      const usuarioItem = item.toJSON();
+      delete usuarioItem.password;
+      return usuarioItem;
+    });
+
+    res.json(preparedData);
+  });
+
+/**
+ * Ruta para gestionar logins de usuarios.
+ * 
+ * @name /usuarios/logins
+ * @function
+ */
+usuariosController.route('/usuarios/logins')
+  /**
+   * Inicia sesión con un usuario.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .post(loginUsuarioValidations, async (req, res) => {
+    const userEmail = req.curatedBody.email;
+    const receivedPasswordHash = sha512(req.curatedBody.password);
+    const user = await usuariosRepository.getOneByEmailAndPassword(userEmail, receivedPasswordHash);
+
+    if (!user) {
+      return res.status(401).json({ message: 'Usuario y/o contraseña incorrectos' });
+    }
+
+    delete user.password;
+
+    const responseData = {
+      user,
+      token: createUserToken(user)
+    };
+
+    res.status(201).json(responseData);
+  });
+
+
+
+/**
+ * Ruta para gestionar el cierre de sesión de un usuario.
+ * 
+ * @name /usuarios/logout
+ * @function
+ */
+usuariosController.route('/usuarios/logout')
+  /**
+   * Cierra sesión de un usuario.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .post(async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+
+    // Verificar si el token es válido (antes de invalidarlo)
+    if (!isValidToken(token, invalidTokens)) {
+      return res.status(401).json({ message: 'Token inválido' });
+    }
+
+    invalidTokens.add(token);
+
+    res.status(200).json({ message: 'Sesión cerrada correctamente' });
+  });
+
+/**
+* Ruta para verificar si el token sigue siendo válido.
+* 
+* @name /usuarios/verify-token
+* @function
+*/
+usuariosController.route('/usuarios/verify-token')
+  /**
+   * Verifica si un token sigue siendo válido.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .post(async (req, res) => {
+    try {
+      const token = req.headers.authorization?.split(' ')[1];
+
+      if (!token) {
+        return res.status(400).json({ message: 'Token no proporcionado' });
+      }
+
+      // Verificar si el token es válido
+      if (!isValidToken(token, invalidTokens) || invalidTokens.has(token)) {
+        return res.status(401).json({ message: 'Token inválido o expirado' });
+      }
+
+      // Si es válido, devolver una respuesta positiva
+      res.status(200).json({ message: 'Token válido' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al verificar el token', error: error.message });
+    }
+  });
+
+
+/**
+ * Ruta para gestionar un usuario específico por su ID.
+ * 
+ * @name /usuarios/:id
+ * @function
+ */
+usuariosController.route('/usuarios/:id')
+  /**
+   * Obtiene un usuario por su ID.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
+    const itemId = req.params.id;
+    const item = await usuariosRepository.getOne(itemId);
+
+    if (!item) {
+      return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
+    }
+
+    const response = item.toJSON();
+    delete response.password;
+    res.json(response);
+  })
+
+  /**
+   * Actualiza un usuario por su ID.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {Function} next - Siguiente middleware.
+   */
+  .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
+    const itemId = req.params.id;
+
+    try {
+      const form = formidable({ multiples: true });
+      form.parse(req, async (err, fields, files) => {
+        req.curatedBody = fields;
+
+        if (files &amp;&amp; files.fotoPerfil) {
+          req.curatedBody.fotoPerfil = files.fotoPerfil[0].filepath;
+        }
+
+        ['nombre', 'email', 'password', 'rol'].forEach(field => {
+          if (fields[field]) req.curatedBody[field] = fields[field].toString();
+        });
+
+        const validatedData = await updateUsuarioValidations.validate(
+          req.curatedBody,
+          { abortEarly: false, stripUnknown: true }
+        );
+
+        const updatedItem = await usuariosRepository.update(itemId, validatedData);
+
+        if (!updatedItem) {
+          return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
+        }
+
+        res.status(201).json(updatedItem);
+      });
+    } catch (e) {
+      next(e);
+    }
+  })
+
+  /**
+   * Elimina un usuario por su ID.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .delete(sessionChecker(['administrador'], true), validateObjectIdFormat(), async (req, res) => {
+    const itemId = req.params.id;
+    const item = await usuariosRepository.remove(itemId);
+
+    if (!item) {
+      return res.status(404).json({ message: `Usuario con id ${itemId} no encontrado` });
+    }
+
+    res.status(204).json();
+  });
+
+export { usuariosController };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="img/toast-ui.png" style="">
+    <div class="footer-text">NHN Entertainment. Frontend Development Lab</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

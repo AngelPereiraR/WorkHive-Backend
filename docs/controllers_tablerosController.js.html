@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: controllers/tablerosController.js | Source: controllers/tablerosController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="">
+        
+            <img src="img/toast-ui.png" width="100%" height="100%">
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Source: controllers/tablerosController.js</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Modules</h3><ul><li><a href="module-TableroModel.html">TableroModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:TableroModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-TableroModel.html#~TableroModel">TableroModel</a></li></ul></div></li><li><a href="module-TareaModel.html">TareaModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:TareaModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-TareaModel.html#~TareaModel">TareaModel</a></li></ul></div></li><li><a href="module-UsuarioModel.html">UsuarioModel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:UsuarioModel_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="module-UsuarioModel.html#~UsuarioModel">UsuarioModel</a></li></ul></div></li><li><a href="module-cloudinary.html">cloudinary</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:cloudinary_sub"></div></li><li><a href="module-tablerosController.html">tablerosController</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:tablerosController_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="module-tablerosController.html#~/tableros">/tableros</a></li><li><a href="module-tablerosController.html#~/tableros/:id">/tableros/:id</a></li><li><a href="module-tablerosController.html#~/tableros/:id/colaboradores">/tableros/:id/colaboradores</a></li><li><a href="module-tablerosController.html#~/tableros/administrador/:userId">/tableros/administrador/:userId</a></li><li><a href="module-tablerosController.html#~/tableros/colaborador/:userId">/tableros/colaborador/:userId</a></li></ul></div></li><li><a href="module-usuariosController.html">usuariosController</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="module:usuariosController_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="module-usuariosController.html#~/usuarios">/usuarios</a></li><li><a href="module-usuariosController.html#~/usuarios/:id">/usuarios/:id</a></li><li><a href="module-usuariosController.html#~/usuarios/logins">/usuarios/logins</a></li><li><a href="module-usuariosController.html#~/usuarios/logout">/usuarios/logout</a></li><li><a href="module-usuariosController.html#~/usuarios/verify-token">/usuarios/verify-token</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3>Namespaces</h3><ul><li><a href="cloudinaryConfig.html">cloudinaryConfig</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="cloudinaryConfig_sub"></div></li><li><a href="tablerosRepository.html">tablerosRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="tablerosRepository_sub"></div></li><li><a href="tareasRepository.html">tareasRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="tareasRepository_sub"></div></li><li><a href="usuariosRepository.html">usuariosRepository</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="usuariosRepository_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#/tareas">/tareas</a></li><li><a href="global.html#/tareas/:id">/tareas/:id</a></li><li><a href="global.html#/tareas/asignado">/tareas/asignado</a></li><li><a href="global.html#/tareas/estado">/tareas/estado</a></li><li><a href="global.html#/tareas/fechaLimite">/tareas/fechaLimite</a></li><li><a href="global.html#/tareas/prioridad">/tareas/prioridad</a></li><li><a href="global.html#addCollaborator">addCollaborator</a></li><li><a href="global.html#administrador">administrador</a></li><li><a href="global.html#asignadoA">asignadoA</a></li><li><a href="global.html#colaboradores">colaboradores</a></li><li><a href="global.html#comentarios">comentarios</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createTableroSchema">createTableroSchema</a></li><li><a href="global.html#createTableroValidations">createTableroValidations</a></li><li><a href="global.html#createTareaValidations">createTareaValidations</a></li><li><a href="global.html#customErrorHandler">customErrorHandler</a></li><li><a href="global.html#descripcion">descripcion</a></li><li><a href="global.html#email">email</a></li><li><a href="global.html#estado">estado</a></li><li><a href="global.html#fecha">fecha</a></li><li><a href="global.html#fechaFin">fechaFin</a></li><li><a href="global.html#fechaInicio">fechaInicio</a></li><li><a href="global.html#fechaLimite">fechaLimite</a></li><li><a href="global.html#fotoPerfil">fotoPerfil</a></li><li><a href="global.html#getByAdministrator">getByAdministrator</a></li><li><a href="global.html#getByCollaborator">getByCollaborator</a></li><li><a href="global.html#getOne">getOne</a></li><li><a href="global.html#getOneByEmailAndPassword">getOneByEmailAndPassword</a></li><li><a href="global.html#isProyectoActual">isProyectoActual</a></li><li><a href="global.html#isValidDate">isValidDate</a></li><li><a href="global.html#isValidToken">isValidToken</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#listByLimitDate">listByLimitDate</a></li><li><a href="global.html#listByPriority">listByPriority</a></li><li><a href="global.html#listByState">listByState</a></li><li><a href="global.html#listByUserAsigned">listByUserAsigned</a></li><li><a href="global.html#loginUsuarioValidations">loginUsuarioValidations</a></li><li><a href="global.html#mensaje">mensaje</a></li><li><a href="global.html#nombre">nombre</a></li><li><a href="global.html#password">password</a></li><li><a href="global.html#pathNotFoundHandler">pathNotFoundHandler</a></li><li><a href="global.html#prioridad">prioridad</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#removeCollaborator">removeCollaborator</a></li><li><a href="global.html#rol">rol</a></li><li><a href="global.html#schema">schema</a></li><li><a href="global.html#tablero">tablero</a></li><li><a href="global.html#tableroSchema">tableroSchema</a></li><li><a href="global.html#tareaSchema">tareaSchema</a></li><li><a href="global.html#tareasController">tareasController</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateTableroSchema">updateTableroSchema</a></li><li><a href="global.html#updateTableroValidations">updateTableroValidations</a></li><li><a href="global.html#updateTareaValidations">updateTareaValidations</a></li><li><a href="global.html#uploadImage">uploadImage</a></li><li><a href="global.html#usuario">usuario</a></li><li><a href="global.html#usuarioSchema">usuarioSchema</a></li><li><a href="global.html#validateAsignadoTareaFormat">validateAsignadoTareaFormat</a></li><li><a href="global.html#validateEstadoTareaFormat">validateEstadoTareaFormat</a></li><li><a href="global.html#validateFechaTareaFormat">validateFechaTareaFormat</a></li><li><a href="global.html#validateObjectIdFormat">validateObjectIdFormat</a></li><li><a href="global.html#validatePrioridadTareaFormat">validatePrioridadTareaFormat</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import express from 'express';
+import { tablerosRepository } from '../repositories/tablerosRepository.js';
+import { usuariosRepository } from '../repositories/usuariosRepository.js';
+import { createTableroValidations } from '../validations/createTableroValidations.js';
+import { updateTableroValidations } from '../validations/updateTableroValidations.js';
+import { validateObjectIdFormat } from '../validations/validateObjectIdFormat.js';
+import { sessionChecker } from '../security/sessionChecker.js';
+
+/**
+ * Controlador para gestionar rutas relacionadas con tableros.
+ * 
+ * @module tablerosController
+ * @requires express
+ * @requires ../repositories/tablerosRepository
+ * @requires ../validations/createTableroValidations
+ * @requires ../validations/updateTableroValidations
+ * @requires ../validations/validateObjectIdFormat
+ * @requires ../security/sessionChecker
+ * @requires ../errors/ForbiddenError
+ */
+const tablerosController = express.Router();
+
+/**
+ * Ruta para crear y listar tableros.
+ * 
+ * @name /tableros
+ * @function
+ */
+tablerosController.route('/tableros')
+  /**
+   * Crea un nuevo tablero.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .post(sessionChecker(['administrador', 'usuario'], true), createTableroValidations, async (req, res) => {
+    const createdItem = await tablerosRepository.create({
+      ...req.curatedBody,
+      administrador: req.tokenData.id
+    });
+    res.status(201).json(createdItem);
+  })
+  /**
+   * Lista todos los tableros.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .get(sessionChecker(['administrador'], true), async (req, res) => {
+    const itemList = await tablerosRepository.list();
+    res.json(itemList);
+  });
+
+/**
+ * Ruta para gestionar un tablero específico por su ID.
+ * 
+ * @name /tableros/:id
+ * @function
+ */
+tablerosController.route('/tableros/:id')
+  /**
+   * Obtiene un tablero por su ID.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {function} next - Función para pasar al siguiente middleware.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
+    const itemId = req.params.id;
+    const item = await tablerosRepository.getOne(itemId);
+    if (!item) {
+      return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
+    }
+    res.json(item);
+  })
+  /**
+   * Actualiza un tablero por su ID.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {function} next - Función para pasar al siguiente middleware.
+   */
+  .put(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), updateTableroValidations, async (req, res, next) => {
+    const itemId = req.params.id;
+    const item = await tablerosRepository.getOne(itemId);
+    if (!item) {
+      return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
+    }
+    const updatedItem = await tablerosRepository.update(itemId, req.curatedBody);
+    res.json(updatedItem);
+  })
+  /**
+   * Elimina un tablero por su ID.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {function} next - Función para pasar al siguiente middleware.
+   */
+  .delete(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
+    const itemId = req.params.id;
+    const item = await tablerosRepository.getOne(itemId);
+    if (!item) {
+      return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
+    }
+    await tablerosRepository.remove(itemId);
+    res.status(204).json();
+  });
+
+/**
+ * Ruta para gestionar colaboradores de un tablero.
+ * 
+ * @name /tableros/:id/colaboradores
+ * @function
+ */
+tablerosController.route('/tableros/:id/colaboradores')
+  /**
+   * Añade un colaborador a un tablero.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {function} next - Función para pasar al siguiente middleware.
+   */
+  .post(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
+    const tableroId = req.params.id;
+    const { userId } = req.body;
+    const user = await usuariosRepository.getOne(userId);
+    if (!user) {
+      return res.status(404).json({ message: `Usuario con id ${userId} no encontrado` });
+    }
+    const tablero = await tablerosRepository.getOne(tableroId);
+    if (!tablero) {
+      return res.status(404).json({ message: `Tablero con id ${tableroId} no encontrado` });
+    }
+    const updatedTablero = await tablerosRepository.addCollaborator(tableroId, userId);
+    res.json(updatedTablero);
+  })
+  /**
+   * Elimina un colaborador de un tablero.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @param {function} next - Función para pasar al siguiente middleware.
+   */
+  .delete(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res, next) => {
+    const tableroId = req.params.id;
+    const { userId } = req.body;
+    const user = await usuariosRepository.getOne(userId);
+    if (!user) {
+      return res.status(404).json({ message: `Usuario con id ${userId} no encontrado` });
+    }
+    const tablero = await tablerosRepository.getOne(tableroId);
+    if (!tablero) {
+      return res.status(404).json({ message: `Tablero con id ${tableroId} no encontrado` });
+    }
+    const updatedTablero = await tablerosRepository.removeCollaborator(tableroId, userId);
+    res.json(updatedTablero);
+  });
+
+/**
+ * Ruta para obtener tableros por colaborador.
+ * 
+ * @name /tableros/colaborador/:userId
+ * @function
+ */
+tablerosController.route('/tableros/colaborador/:userId')
+  /**
+   * Obtiene tableros por colaborador.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat("userId"), async (req, res) => {
+    const userId = req.params.userId;
+    const tableros = await tablerosRepository.getByCollaborator(userId);
+    res.json(tableros);
+  });
+
+/**
+ * Ruta para obtener tableros por administrador.
+ * 
+ * @name /tableros/administrador/:userId
+ * @function
+ */
+tablerosController.route('/tableros/administrador/:userId')
+  /**
+   * Obtiene tableros por administrador.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat("userId"), async (req, res) => {
+    const userId = req.params.userId;
+    const tableros = await tablerosRepository.getByAdministrator(userId);
+    res.json(tableros);
+  });
+
+/**
+ * @route /tableros/:id/actual
+ * @description Verifica si un tablero es el proyecto actual basado en la fecha de finalización.
+ */
+tablerosController.route('/tableros/:id/actual')
+  /**
+   * Verifica si el tablero es el proyecto actual.
+   * 
+   * @async
+   * @function
+   * @param {Object} req - Objeto de solicitud.
+   * @param {Object} res - Objeto de respuesta.
+   * @returns {Object} JSON con `{ actual: boolean }`.
+   */
+  .get(sessionChecker(['administrador', 'usuario'], true), validateObjectIdFormat(), async (req, res) => {
+    const itemId = req.params.id;
+    const item = await tablerosRepository.getOne(itemId);
+    if (!item) {
+      return res.status(404).json({ message: `Tablero con id ${itemId} no encontrado` });
+    }
+    const actual = tablerosRepository.isProyectoActual(Date.now(), item.fechaFin);
+    res.json({ actual });
+  });
+
+export { tablerosController };</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="img/toast-ui.png" style="">
+    <div class="footer-text">NHN Entertainment. Frontend Development Lab</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

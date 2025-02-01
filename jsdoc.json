@@ -1,0 +1,25 @@
+{
+  "source": {
+    "include": [
+      "controllers",
+      "errors",
+      "repositories",
+      "security",
+      "utils",
+      "validations",
+      "index.js"
+    ],
+    "includePattern": ".+\\.(js|jsx)$",
+    "excludePattern": "(node_modules|docs)"
+  },
+  "opts": {
+    "destination": "./docs",
+    "recurse": true,
+    "template": "node_modules/tui-jsdoc-template"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}
