@@ -1,26 +1,95 @@
-import express from 'express'
+import express from 'express';
 
-// Obtenemos el sistema de enrutado de express para configurarlo
 const indexController = express.Router();
 
 /**
- * Configuración de la ruta base '/' utilizando el enrutador de Express.
- * Se establece que cuando se haga una petición GET, se devolverá un objeto JSON
- * con la versión de la API y un mensaje.
+ * @fileoverview Controlador principal de la aplicación.
+ * Contiene las rutas para la raíz (`/`), el `sitemap.xml` y el `robots.txt`.
  */
-indexController.route('/')
-  /**
-   * Controlador para la ruta GET en la raíz de la aplicación.
-   * Responde con un objeto JSON que contiene la versión de la API y un mensaje de saludo.
-   * 
-   * @param {Object} req - El objeto de la solicitud de Express.
-   * @param {Object} res - El objeto de la respuesta de Express.
-   */
-  .get((req, res) => {
-    const apiVersion = { version: process.env.API_VERSION || '1.0.0', message: "¡¡Hola Mundo!!" };
-    res.json(apiVersion);
+
+/**
+ * Ruta principal (`/`).
+ * Devuelve información sobre la versión de la API.
+ *
+ * @route GET /
+ * @group General
+ * @returns {Object} 200 - JSON con la versión de la API y un mensaje de bienvenida.
+ */
+indexController.get('/', (req, res) => {
+  const apiVersion = { version: process.env.API_VERSION || '1.0.0', message: "¡¡Hola Mundo!!" };
+  res.json(apiVersion);
+});
+
+/**
+ * Obtiene todas las rutas registradas en la aplicación Express.
+ *
+ * @param {Object} app - La instancia de Express.
+ * @returns {string[]} - Lista de rutas disponibles en la aplicación.
+ */
+function getRoutes(app) {
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      // Ruta directa
+      routes.push(middleware.route.path);
+    } else if (middleware.name === 'router') {
+      // Módulo de rutas con varias rutas internas
+      middleware.handle.stack.forEach((subMiddleware) => {
+        if (subMiddleware.route) {
+          routes.push(subMiddleware.route.path);
+        }
+      });
+    }
+  });
+  return routes;
+}
+
+/**
+ * Genera y devuelve un `sitemap.xml` con las rutas de la aplicación.
+ *
+ * @route GET /sitemap.xml
+ * @group SEO
+ * @returns {string} 200 - XML con las URLs indexables de la aplicación.
+ */
+indexController.get('/sitemap.xml', (req, res) => {
+  const app = req.app;
+  const routes = getRoutes(app);
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+  routes.forEach((route) => {
+    xml += `  <url>\n`;
+    xml += `    <loc>${baseUrl}${route}</loc>\n`;
+    xml += `    <changefreq>weekly</changefreq>\n`;
+    xml += `    <priority>0.8</priority>\n`;
+    xml += `  </url>\n`;
   });
 
-// Exportamos las rutas de la página principal de mi servicio ya configuradas
-// para engancharlas en el punto de entrada (index.js).
+  xml += `</urlset>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.send(xml);
+});
+
+/**
+ * Genera y devuelve el archivo `robots.txt` para gestionar el acceso de los motores de búsqueda.
+ *
+ * @route GET /robots.txt
+ * @group SEO
+ * @returns {string} 200 - Archivo `robots.txt` en texto plano.
+ */
+indexController.get('/robots.txt', (req, res) => {
+  const robotsTxt = `
+    User-agent: *
+    Disallow: /admin
+    Allow: /
+    Sitemap: ${req.protocol}://${req.get('host')}/sitemap.xml
+  `.trim();
+
+  res.header('Content-Type', 'text/plain');
+  res.send(robotsTxt);
+});
+
 export { indexController };
