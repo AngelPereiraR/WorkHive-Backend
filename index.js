@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import bearerToken from "express-bearer-token";
 import cors from 'cors';
+import compression from "compression";
 import mongoose from 'mongoose';
 import { indexController } from "./controllers/indexController.js";
 import { usuariosController } from "./controllers/usuariosController.js";
@@ -24,6 +25,11 @@ app.use(helmet());
  * permitiendo que la aplicación acepte peticiones de dominios externos.
  */
 app.use(cors());
+
+/**
+ * Middleware para comprimir las respuestas para reducir el tamaño y aumentar la velocidad de transferencia.
+ */
+app.use(compression());
 
 /**
  * Middleware para obtener el token de autorización del encabezado "Authorization".
